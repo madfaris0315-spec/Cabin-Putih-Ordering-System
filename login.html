@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cabin Putih — Login</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+    <style>
+        /* ============================================================
+           CABIN PUTIH ORDERING SYSTEM — GATEWAY THEME
+           Premium Palette: Midnight Navy (#0B0F19) + Warm Amber (#F59E0B)
+           ============================================================ */
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+          --bg-main:       #0b0f19;
+          --bg-surface:    #131a2a;
+          --bg-card:       #1c263c;
+          --bg-pill:       #25324e;
+          --border:        #24324f;
+
+          --amber:         #f59e0b;
+          --amber-hover:   #fbbf24;
+          --amber-faint:   rgba(245,158,11,0.12);
+
+          --text-primary:  #f8fafc;
+          --text-secondary:#94a3b8;
+          --text-muted:    #64748b;
+
+          --success:       #22c55e;
+          --success-bg:    rgba(34,197,94,0.12);
+          --danger:        #ef4444;
+          --danger-bg:     rgba(239,68,68,0.12);
+
+          --radius-sm:     8px;
+          --radius-md:     14px;
+          --radius-xl:     24px;
+          --font-family:   'Plus Jakarta Sans', system-ui, sans-serif;
+          --transition:    0.25s ease;
+        }
+
+        body {
+          font-family: var(--font-family);
+          background-color: var(--bg-main);
+          color: var(--text-primary);
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 20px;
+          position: relative;
+          overflow-x: hidden;
+          -webkit-font-smoothing: antialiased;
+        }
+
+        /* ---- BACKGROUND DOODLE ---- */
+        .bg-doodle-overlay {
+          position: absolute;
+          inset: 0;
+          z-index: 1;
+          pointer-events: none;
+          opacity: 0.04;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath d='M15 15h10v10H15zm0 45h10v10H15zM75 15h10v10H75zM15 75C15 65 25 65 25 75s10 10 10 0M45 45c0-10 10-10 10 0s10 10 10 0M105 45c0-5-5-5-5 0s-5 5-5 0M45 15l5 10h-10zm60 60l5 10h-10zM45 75h10v10H45zm30 0h10v10H75zM75 45l5 5 5-5-5-5zm0 60l5 5 5-5-5-5zM15 105c5 0 5-5 5-5s5 5 5 5' fill='%23f59e0b' fill-width='2' fill-linecap='round' stroke='%23f59e0b' stroke-width='2'/%3E%3Ccircle cx='100' cy='20' r='6' fill='none' stroke='%23f59e0b' stroke-width='2'/%3E%3Ccircle cx='20' cy='40' r='4' fill='none' stroke='%23f59e0b' stroke-width='2'/%3E%3Ccircle cx='50' cy='100' r='5' fill='none' stroke='%23f59e0b' stroke-width='2'/%3E%3Cpath d='M95 90c-5 0-5 10-10 10s-5-10-10-10' fill='none' stroke='%23f59e0b' stroke-width='2'/%3E%3C/svg%3E");
+        }
+
+        .btn-back-home {
+          position: absolute;
+          top: 32px;
+          left: 32px;
+          z-index: 10;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          background-color: var(--bg-surface);
+          border: 1px solid var(--border);
+          color: var(--text-secondary);
+          padding: 10px 20px;
+          border-radius: 99px;
+          font-size: 0.88rem;
+          font-weight: 600;
+          text-decoration: none;
+          transition: var(--transition);
+        }
+
+        .btn-back-home:hover {
+          color: var(--text-primary);
+          border-color: var(--border);
+          transform: translateX(-2px);
+        }
+
+        .login-card {
+          background-color: var(--bg-surface);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-xl);
+          padding: 40px;
+          width: 100%;
+          max-width: 440px;
+          box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+          position: relative;
+          z-index: 5;
+        }
+
+        .login-logo {
+          text-align: center;
+          margin-bottom: 32px;
+        }
+        .login-logo .logo-mark {
+          font-size: 2.5rem;
+          margin-bottom: 6px;
+          display: inline-block;
+        }
+        .login-logo h1 { font-size: 1.85rem; font-weight: 800; color: var(--text-primary); }
+        .login-logo p { font-size: 0.9rem; color: var(--text-secondary); margin-top: 4px; }
+
+        .login-tabs {
+          display: flex;
+          background-color: var(--bg-main);
+          padding: 4px;
+          border-radius: var(--radius-md);
+          margin-bottom: 28px;
+          border: 1px solid var(--border);
+        }
+        .login-tab {
+          flex: 1;
+          text-align: center;
+          padding: 10px 6px;
+          border-radius: var(--radius-sm);
+          font-size: 0.88rem;
+          font-weight: 600;
+          cursor: pointer;
+          color: var(--text-secondary);
+          border: none;
+          background: transparent;
+          font-family: var(--font-family);
+          transition: var(--transition);
+        }
+        .login-tab.active {
+          background-color: var(--amber);
+          color: #0b0f19;
+        }
+
+        .tab-pane { display: none; }
+        .tab-pane.active {
+          display: flex;
+          flex-direction: column;
+        }
+
+        form {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+        }
+
+        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        .form-label { font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; }
+        .form-control { width: 100%; background-color: var(--bg-main); border: 1px solid var(--border); border-radius: 12px; color: var(--text-primary); padding: 12px 16px; font-size: 0.95rem; outline: none; font-family: var(--font-family); transition: var(--transition); }
+        .form-control:focus { border-color: var(--amber); box-shadow: 0 0 0 3px rgba(245,158,11,0.15); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+        .btn-primary { 
+          background-color: var(--amber); 
+          color: #0b0f19; 
+          padding: 14px;
+          border-radius: 99px;
+          font-size: 1rem;
+          font-weight: 700;
+          cursor: pointer;
+          border: none;
+          transition: var(--transition);
+          font-family: var(--font-family);
+          margin-top: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .btn-primary:hover { background-color: var(--amber-hover); }
+
+        .alert { padding: 12px 16px; border-radius: 12px; font-size: 0.9rem; margin-bottom: 20px; font-weight: 500; }
+        .alert-danger { background-color: var(--danger-bg); color: var(--danger); border: 1px solid rgba(239,68,68,0.25); }
+        .alert-success { background-color: var(--success-bg); color: var(--success); border: 1px solid rgba(34,197,94,0.25); }
+
+        .forgot-link { font-size: 0.85rem; color: var(--text-secondary); cursor: pointer; text-align: right; margin-top: -4px; align-self: flex-end; }
+        .forgot-link:hover { color: var(--amber); }
+
+        .bottom-toggle-text { text-align: center; margin-top: 24px; font-size: 0.88rem; color: var(--text-secondary); }
+        .bottom-toggle-text span { color: var(--amber); font-weight: 600; cursor: pointer; transition: var(--transition); }
+        .bottom-toggle-text span:hover { color: var(--amber-hover); text-decoration: underline; }
+
+        /* ---- POPUP RECOVERY MODALS ---- */
+        .modal-overlay { position: fixed; inset: 0; background-color: rgba(5,7,12,0.8); backdrop-filter: blur(4px); z-index: 500; display: none; align-items: center; justify-content: center; padding: 16px; }
+        .modal-overlay.open { display: flex; }
+        .modal-box { background-color: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-xl); width: 100%; max-width: 460px; padding: 32px; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .modal-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 12px; color: var(--text-primary); display: flex; align-items: center; gap: 8px; }
+        .modal-close { position: absolute; top: 24px; right: 24px; background: var(--bg-pill); border: none; color: var(--text-secondary); border-radius: 50%; width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+        .modal-close:hover { color: var(--text-primary); background-color: var(--border); }
+
+        .modal-step { display: none; }
+        .modal-step.active { display: flex; flex-direction: column; gap: 16px; }
+    </style>
+</head>
+<body>
+
+<div class="bg-doodle-overlay"></div>
+
+<a href="index.html" class="btn-back-home">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    Back to Home
+</a>
+
+<div class="login-card">
+    <div class="login-logo">
+        <div class="logo-mark">☕</div>
+        <h1>Cabin Putih</h1>
+        <p>F&amp;B Ordering Portal</p>
+    </div>
+
+    <div id="alertBox"></div>
+
+    <div class="login-tabs" id="coreLoginTabsRow">
+        <button class="login-tab active" id="tab-btn-customer" onclick="switchTab('customer')">Customer</button>
+        <button class="login-tab" id="tab-btn-staff" onclick="switchTab('staff')">Staff</button>
+    </div>
+
+    <div class="tab-pane active" id="tab-customer">
+        <form onsubmit="handleCustomerLogin(event)">
+            <div class="form-fields-bucket">
+                <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input type="text" id="custPhone" class="form-control" placeholder="e.g. 012-7865671" value="0127865671" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="custPass" class="form-control" placeholder="Enter password" value="password123" required>
+                </div>
+            </div>
+            <button type="button" class="forgot-link" onclick="openForgotModal()">Forgot Password?</button>
+            <button type="submit" class="btn-primary">Sign In</button>
+            <div class="bottom-toggle-text">Don't have an account? <span onclick="switchToRegisterPane()">Register here</span></div>
+        </form>
+    </div>
+
+    <div class="tab-pane" id="tab-register">
+        <form onsubmit="handleRegistration(event)">
+            <div class="form-fields-bucket">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">First Name</label>
+                        <input type="text" id="regFirst" class="form-control" placeholder="e.g. AMIR" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Last Name</label>
+                        <input type="text" id="regLast" class="form-control" placeholder="e.g. HAKIMI" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input type="text" id="regPhone" class="form-control" placeholder="e.g. 012-7865671" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" id="regPass" class="form-control" placeholder="Min. 6 chars" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Confirm</label>
+                        <input type="password" id="regPass2" class="form-control" placeholder="Repeat choice" required>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn-primary">Create Account</button>
+            <div class="bottom-toggle-text">Already registered? <span onclick="switchTab('customer')">Sign In here</span></div>
+        </form>
+    </div>
+
+    <div class="tab-pane" id="tab-staff">
+        <form onsubmit="handleStaffLogin(event)">
+            <div class="form-fields-bucket">
+                <div class="form-group">
+                    <label class="form-label">Employee ID</label>
+                    <input type="text" id="staffId" class="form-control" placeholder="e.g. EMP001" value="EMP001" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Staff Password</label>
+                    <input type="password" id="staffPass" class="form-control" placeholder="Staff password" value="password123" required>
+                </div>
+            </div>
+            <button type="submit" class="btn-primary">Staff Sign In</button>
+        </form>
+    </div>
+</div>
+
+<div class="modal-overlay" id="forgotModal">
+    <div class="modal-box">
+        <div class="modal-title">Password Recovery</div>
+        <button class="modal-close" onclick="closeForgotModal()">&times;</button>
+        <div id="modalAlertBox"></div>
+
+        <div class="modal-step active" id="reset-step-1">
+            <p style="font-size:0.9rem; color:var(--text-secondary);">Provide your account parameters to authenticate identity routing permissions.</p>
+            <div class="form-group"><label class="form-label">First Name</label><input type="text" id="forgotFirst" class="form-control" placeholder="e.g. MUHAMMAD AMIR HAKIMI" required></div>
+            <div class="form-group"><label class="form-label">Last Name</label><input type="text" id="forgotLast" class="form-control" placeholder="e.g. ABD RAHMAN" required></div>
+            <div class="form-group"><label class="form-label">Phone Number</label><input type="text" id="forgotPhone" class="form-control" placeholder="e.g. 0127865671" required></div>
+            <button type="button" class="btn-primary" style="margin-top: 8px;" onclick="verifyUserIdentityStep()">Verify Account &rarr;</button>
+        </div>
+
+        <div class="modal-step" id="reset-step-2">
+            <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom: 4px;">Identity verified! Enter your new custom password mapping handle below.</p>
+            <div class="form-group"><label class="form-label">New Password</label><input type="password" id="forgotNewPass" class="form-control" placeholder="Min. 6 characters" required></div>
+            <div class="form-group"><label class="form-label">Confirm New Password</label><input type="password" id="forgotNewPassConfirm" class="form-control" placeholder="Repeat choice" required></div>
+            <button type="button" class="btn-primary" style="margin-top: 8px;" onclick="commitUserPasswordReset()">Save New Password</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ============================================================
+// CABIN PUTIH API ROUTING DEFINITIONS
+// Base URL mapped directly from your Oracle APEX Module config
+// ============================================================
+const API_BASE_URL = 'https://oracleapex.com/ords/cabin_putih/api';
+
+// Clean string helper to remove whitespaces and special characters from phone values
+function cleanStringValue(str) {
+    if (!str) return '';
+    return String(str).replace(/[\s\-\(\)\+]/g, '').trim();
+}
+
+function switchTab(viewId) {
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
+    
+    document.getElementById('tab-' + viewId).classList.add('active');
+    
+    const btn = document.getElementById('tab-btn-' + viewId);
+    if(btn) btn.classList.add('active');
+    else if(viewId === 'register') document.getElementById('tab-btn-customer').classList.add('active');
+    
+    document.getElementById('alertBox').innerHTML = '';
+}
+
+function switchToRegisterPane() {
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-register').classList.add('active');
+    document.getElementById('alertBox').innerHTML = '';
+}
+
+function openForgotModal() {
+    document.getElementById('modalAlertBox').innerHTML = '';
+    document.getElementById('forgotFirst').value = '';
+    document.getElementById('forgotLast').value = '';
+    document.getElementById('forgotPhone').value = '';
+    document.getElementById('forgotNewPass').value = '';
+    document.getElementById('forgotNewPassConfirm').value = '';
+    
+    document.getElementById('reset-step-2').classList.remove('active');
+    document.getElementById('reset-step-1').classList.add('active');
+    document.getElementById('forgotModal').classList.add('open');
+}
+
+function closeForgotModal() { document.getElementById('forgotModal').classList.remove('open'); }
+
+function triggerAlertMessage(targetBoxId, type, msg) {
+    const alertBox = document.getElementById(targetBoxId);
+    let cssClasses = type === 'success' ? 'alert alert-success' : 'alert alert-danger';
+    alertBox.innerHTML = `<div class="${cssClasses}">${msg}</div>`;
+}
+
+// ============================================================
+// DYNAMIC REST HANDLER: CUSTOMER SIGN IN
+// Maps directly to /auth/customer
+// ============================================================
+async function handleCustomerLogin(e) {
+    e.preventDefault();
+    document.getElementById('alertBox').innerHTML = '';
+    
+    const phone = cleanStringValue(document.getElementById('custPhone').value);
+    const password = document.getElementById('custPass').value;
+
+    try {
+        const details = { 'phone': phone, 'password': password };
+        const formBody = Object.keys(details).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(details[key])).join('&');
+
+        const response = await fetch(`${API_BASE_URL}/auth/customer`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+            body: formBody
+        });
+
+        if (!response.ok) throw new Error('Network authentication request failed.');
+        
+        const data = await response.json();
+
+        if (data.status === 'success') {
+            sessionStorage.setItem('customer_id', data.customer_id);
+            sessionStorage.setItem('customer_name', data.first_name);
+            window.location.href = '/views/dashboard_customer.html';
+        } else {
+            triggerAlertMessage('alertBox', 'error', data.message || 'Invalid credentials mapping.');
+        }
+    } catch (error) {
+        console.error(error);
+        triggerAlertMessage('alertBox', 'error', 'Unable to reach authentication nodes. Check connection.');
+    }
+}
+
+// ============================================================
+// DYNAMIC REST HANDLER: STAFF SIGN IN
+// Maps directly to /auth/staff
+// ============================================================
+async function handleStaffLogin(e) {
+    e.preventDefault();
+    document.getElementById('alertBox').innerHTML = '';
+
+    const empId = document.getElementById('staffId').value.trim().toUpperCase();
+    const password = document.getElementById('staffPass').value;
+
+    try {
+        const details = { 'empid': empId, 'password': password };
+        const formBody = Object.keys(details).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(details[key])).join('&');
+
+        const response = await fetch(`${API_BASE_URL}/auth/staff`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+            body: formBody
+        });
+
+        if (!response.ok) throw new Error('Network authentication request failed.');
+        
+        const data = await response.json();
+
+        if (data.status === 'success') {
+            sessionStorage.setItem('staff_id', empId);
+            sessionStorage.setItem('staff_name', data.employee_name);
+            sessionStorage.setItem('staff_role', data.employee_type);
+
+            if (data.employee_type === 'Manager') {
+                window.location.href = '/views/dashboard_manager.html';
+            } else {
+                window.location.href = '/views/dashboard_staff.html';
+            }
+        } else {
+            triggerAlertMessage('alertBox', 'error', data.message || 'Invalid staff ID or password combination.');
+        }
+    } catch (error) {
+        console.error(error);
+        triggerAlertMessage('alertBox', 'error', 'Unable to reach staff verification gateway.');
+    }
+}
+
+// ============================================================
+// PROD-READY: CUSTOMER REGISTRATION
+// Maps directly to /customer/register
+// ============================================================
+async function handleRegistration(e) {
+    e.preventDefault();
+    document.getElementById('alertBox').innerHTML = '';
+
+    const first = document.getElementById('regFirst').value.trim();
+    const last = document.getElementById('regLast').value.trim();
+    const phone = cleanStringValue(document.getElementById('regPhone').value);
+    const pass = document.getElementById('regPass').value;
+    const pass2 = document.getElementById('regPass2').value;
+
+    if (pass !== pass2) {
+        triggerAlertMessage('alertBox', 'error', 'Passwords do not match.');
+        return;
+    }
+
+    try {
+        // These keys must be exactly lowercase to bind correctly with ORDS parameters
+        const details = { 'first_name': first, 'last_name': last, 'phone': phone, 'password': pass };
+        const formBody = Object.keys(details).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(details[key])).join('&');
+
+        const response = await fetch(`${API_BASE_URL}/customer/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+            body: formBody
+        });
+
+        if (!response.ok) throw new Error('Registration network request failed.');
+        const data = await response.json();
+
+        if (data.status === 'success') {
+            triggerAlertMessage('alertBox', 'success', 'Account created! You can now sign in.');
+            switchTab('customer');
+        } else {
+            triggerAlertMessage('alertBox', 'error', data.message || 'Registration failed.');
+        }
+    } catch (error) {
+        console.error(error);
+        triggerAlertMessage('alertBox', 'error', 'Unable to reach registration gateway.');
+    }
+}
+
+// ============================================================
+// PROD-READY: PASSWORD RECOVERY PIPELINE (STEP 1)
+// Maps directly to /auth/verify_identity
+// ============================================================
+async function verifyUserIdentityStep() {
+    document.getElementById('modalAlertBox').innerHTML = '';
+    
+    const first = document.getElementById('forgotFirst').value.trim();
+    const last = document.getElementById('forgotLast').value.trim();
+    const phone = cleanStringValue(document.getElementById('forgotPhone').value);
+
+    if (!first || !last || !phone) {
+        triggerAlertMessage('modalAlertBox', 'error', 'Please fill in all verification tracking values.');
+        return;
+    }
+
+    try {
+        const details = { 'first_name': first, 'last_name': last, 'phone': phone };
+        const formBody = Object.keys(details).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(details[key])).join('&');
+
+        const response = await fetch(`${API_BASE_URL}/auth/verify_identity`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+            body: formBody
+        });
+
+        if (!response.ok) throw new Error('Identity verification network failure.');
+        const data = await response.json();
+
+        if (data.status === 'success') {
+            sessionStorage.setItem('reset_target_phone', phone);
+            document.getElementById('reset-step-1').classList.remove('active');
+            document.getElementById('reset-step-2').classList.add('active');
+        } else {
+            triggerAlertMessage('modalAlertBox', 'error', data.message || 'No matching account credentials identified.');
+        }
+    } catch (error) {
+        console.error(error);
+        triggerAlertMessage('modalAlertBox', 'error', 'Unable to reach identity verification gateway.');
+    }
+}
+
+// ============================================================
+// PROD-READY: PASSWORD RECOVERY PIPELINE (STEP 2)
+// Maps directly to /auth/reset_password
+// ============================================================
+async function commitUserPasswordReset() {
+    document.getElementById('modalAlertBox').innerHTML = '';
+    
+    const newPass = document.getElementById('forgotNewPass').value;
+    const confirmPass = document.getElementById('forgotNewPassConfirm').value;
+    const phone = sessionStorage.getItem('reset_target_phone');
+
+    if (!phone) {
+        triggerAlertMessage('modalAlertBox', 'error', 'Session mapping token lost. Please restart verification process.');
+        return;
+    }
+
+    if (newPass.length < 6) {
+        triggerAlertMessage('modalAlertBox', 'error', 'Password length must be at least 6 characters.');
+        return;
+    }
+
+    if (newPass !== confirmPass) {
+        triggerAlertMessage('modalAlertBox', 'error', 'Passwords do not match.');
+        return;
+    }
+
+    try {
+        const details = { 'phone': phone, 'new_password': newPass };
+        const formBody = Object.keys(details).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(details[key])).join('&');
+
+        const response = await fetch(`${API_BASE_URL}/auth/reset_password`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+            body: formBody
+        });
+
+        if (!response.ok) throw new Error('Password reset network modification failed.');
+        const data = await response.json();
+
+        if (data.status === 'success') {
+            sessionStorage.removeItem('reset_target_phone');
+            closeForgotModal();
+            triggerAlertMessage('alertBox', 'success', 'Password updated successfully! Sign in with your new credentials.');
+        } else {
+            triggerAlertMessage('modalAlertBox', 'error', data.message || 'Failed to update database schema entries.');
+        }
+    } catch (error) {
+        console.error(error);
+        triggerAlertMessage('modalAlertBox', 'error', 'Unable to execute database update operation.');
+    }
+}
+
+// Background Close Event Listener
+document.getElementById('forgotModal').addEventListener('click', function(e) {
+    if (e.target === this) closeForgotModal();
+});
+</script>
+</body>
+</html>

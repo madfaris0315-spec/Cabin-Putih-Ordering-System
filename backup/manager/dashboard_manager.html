@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cabin Putih — Executive Administration Terminal</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+    <style>
+        /* ============================================================
+           CABIN PUTIH — MANAGEMENT EXECUTIVE CORE THEME
+           ============================================================ */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        :root {
+            --bg-main: #0b0f19;
+            --bg-surface: #131a2a;
+            --bg-card: #1c263c;
+            --bg-pill: #25324e;
+            --border: #24324f;
+            --amber: #f59e0b;
+            --amber-hover: #fbbf24;
+            --amber-faint: rgba(245, 158, 11, 0.1);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --success: #22c55e;
+            --success-faint: rgba(34, 197, 94, 0.1);
+            --danger: #ef4444;
+            --danger-faint: rgba(239, 68, 68, 0.1);
+            --info: #3b82f6;
+            --font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+            --transition: cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
+        }
+
+        body { font-family: var(--font-family); background-color: var(--bg-main); color: var(--text-primary); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+        .app-shell { display: flex; min-height: 100vh; }
+
+        /* FIXED LEFT NAVIGATION */
+        .sidebar { width: 260px; background: linear-gradient(180deg, #0f1422 0%, #070a12 100%); border-right: 1px solid var(--border); display: flex; flex-direction: column; position: fixed; top: 0; left: 0; height: 100vh; z-index: 200; }
+        .sidebar-brand { padding: 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; height: 72px; }
+        .sidebar-brand .brand-icon { background: var(--amber); color: #0b0f19; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.95rem; }
+        .sidebar-brand .brand-text strong { display: block; font-size: 1.05rem; color: var(--text-primary); }
+        .sidebar-brand .brand-text span { display: block; font-size: 0.75rem; color: var(--text-muted); }
+        
+        .sidebar-nav { flex: 1; padding: 24px 12px; display: flex; flex-direction: column; gap: 6px; }
+        .nav-section-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); padding: 12px 12px 6px; font-weight: 700; }
+        .nav-item { width: 100%; color: var(--text-secondary); font-size: 0.88rem; font-weight: 600; padding: 12px 16px; border-radius: 12px; border: none; background: transparent; cursor: pointer; text-align: left; transition: var(--transition); font-family: var(--font-family); }
+        .nav-item:hover { color: var(--text-primary); background-color: rgba(255, 255, 255, 0.03); }
+        .nav-item.active { background-color: var(--amber); color: #0b0f19; font-weight: 700; }
+        .sidebar-footer { padding: 16px; border-top: 1px solid var(--border); background: rgba(0, 0, 0, 0.15); }
+        .sidebar-user { display: flex; align-items: center; gap: 12px; }
+
+        .main-content { margin-left: 260px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
+        .top-header { background-color: rgba(11, 15, 25, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); height: 72px; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; position: sticky; top: 0; z-index: 100; }
+        .header-title { font-weight: 700; font-size: 1.15rem; color: var(--text-primary); }
+        .header-title .breadcrumb { color: var(--text-muted); font-weight: 400; font-size: 0.9rem; }
+        .header-actions { display: flex; align-items: center; gap: 16px; }
+        .header-badge { background-color: var(--bg-pill); border: 1px solid var(--border); color: var(--text-secondary); padding: 6px 16px; border-radius: 99px; font-size: 0.8rem; font-weight: 700; }
+        .btn-logout { color: var(--text-secondary); font-size: 0.85rem; text-decoration: none; padding: 6px 14px; border: 1px solid var(--border); border-radius: 99px; transition: var(--transition); }
+        .btn-logout:hover { border-color: var(--danger); color: var(--danger); background: rgba(239, 68, 68, 0.05); }
+
+        .container { max-width: 1200px; width: 100%; margin: 0 auto; padding: 40px; flex: 1; }
+        .view-section { display: none; }
+        .view-section.active { display: block; animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .hero-section { margin-bottom: 32px; }
+        .hero-section h1 { font-size: 2rem; font-weight: 700; margin-bottom: 6px; letter-spacing: -0.02em; }
+        .hero-section p { color: var(--text-secondary); font-size: 1rem; }
+
+        /* DASHBOARD SUMMARY KPI MATRICES */
+        .metrics-summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 32px; }
+        .metric-stat-card { background: var(--bg-surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 8px; }
+        .metric-stat-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 0.05em; }
+        .metric-stat-value { font-size: 1.8rem; font-weight: 800; color: var(--text-primary); }
+        .metric-stat-value.highlight-amber { color: var(--amber); }
+        .metric-stat-footer { font-size: 0.72rem; color: var(--text-muted); }
+
+        /* STACKED CHARTS STYLING */
+        .card { background: var(--bg-surface); border: 1px solid var(--border); border-radius: 20px; padding: 24px; }
+        .card-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 20px; color: var(--text-primary); }
+        .chart-container-vector { background: var(--bg-main) !important; border: 1px solid var(--border) !important; border-radius: 14px !important; box-shadow: inset 0 2px 8px rgba(0,0,0,0.2); width: 100%; }
+        .chart-axis-text { font-size: 11px; fill: var(--text-secondary); font-weight: 500; font-family: var(--font-family); }
+        .chart-value-label { font-size: 10px; fill: var(--text-primary); font-weight: 700; text-anchor: middle; }
+        .legend-row-item { display: flex; align-items: center; justify-content: space-between; background: var(--bg-card); padding: 12px 18px; border-radius: 10px; border: 1px solid var(--border); width: 100%; }
+
+        /* TABLES & MODALS */
+        .history-table-card { background-color: var(--bg-surface); border: 1px solid var(--border); border-radius: 20px; padding: 24px; overflow-x: auto; }
+        .history-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; text-align: left; }
+        .history-table th { padding: 14px; color: var(--text-secondary); border-bottom: 2px solid var(--border); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; }
+        .history-table td { padding: 16px 14px; border-bottom: 1px solid var(--border); color: var(--text-primary); }
+        .history-order-id { font-family: monospace; color: var(--amber); font-weight: 700; }
+        .cart-item-qty { font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); background: var(--bg-main); padding: 4px 10px; border-radius: 99px; }
+        .btn-reorder { background-color: var(--bg-pill); color: var(--text-primary); border: 1px solid var(--border); border-radius: 99px; padding: 6px 16px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: var(--transition); }
+        .btn-reorder:hover { border-color: var(--amber); color: var(--amber); background-color: var(--amber-faint); }
+        .btn-promo-action { background-color: var(--success); color: white; border: none; border-radius: 12px; padding: 12px 24px; font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: var(--transition); }
+        
+        .modal-overlay { position: fixed; inset: 0; background-color: rgba(5, 7, 12, 0.8); backdrop-filter: blur(4px); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .modal-overlay.open { display: flex; }
+        .modal-box { background-color: var(--bg-surface); border: 1px solid var(--border); border-radius: 24px; width: 100%; max-width: 480px; padding: 28px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .modal-title { font-size: 1.25rem; font-weight: 700; }
+        .modal-close-btn { background-color: var(--bg-pill); border: none; color: var(--text-secondary); width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+        .form-group { margin-bottom: 16px; display: flex; flex-direction: column; gap: 6px; }
+        .form-label { font-size: 0.78rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; }
+        .form-control { width: 100%; background-color: var(--bg-main); border: 1px solid var(--border); border-radius: 12px; color: var(--text-primary); padding: 12px 16px; font-size: 0.95rem; outline: none; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .btn-submit-order { background-color: var(--amber); color: #0b0f19; border: none; border-radius: 99px; padding: 12px; font-size: 0.95rem; font-weight: 700; cursor: pointer; width: 100%; }
+        .status-pill-static { font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: 99px; text-transform: uppercase; letter-spacing: 0.02em; display: inline-block; }
+        .status-pill-static.success { background-color: var(--success-faint); color: var(--success); border: 1px solid rgba(34, 197, 94, 0.2); }
+        .status-pill-static.danger { background-color: var(--danger-faint); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.2); }
+
+        /* APP NOTIFICATION ALERTS */
+        .toast-slot-wrapper { position: fixed; top: 24px; right: 24px; z-index: 5000; display: flex; flex-direction: column; gap: 10px; }
+        .alert-toast-container { background: var(--success-faint); border: 1px solid rgba(34, 197, 94, 0.3); border-left: 4px solid var(--success); color: var(--text-primary); padding: 16px 24px; border-radius: 12px; font-size: 0.9rem; font-weight: 600; display: flex; align-items: center; gap: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); animation: slideInToast 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        
+        /* DATA METRIC PAIR SHEET FOR DELETION PREVIEW */
+        .preview-data-sheet { background: var(--bg-main); border: 1px solid var(--border); border-radius: 14px; padding: 16px; margin-bottom: 20px; display: flex; flex-direction: column; gap: 10px; }
+        .preview-data-row { display: flex; justify-content: space-between; font-size: 0.88rem; }
+        .preview-data-label { color: var(--text-secondary); }
+        .preview-data-value { font-weight: 700; color: var(--text-primary); }
+
+        @keyframes barGrow { from { transform: scaleY(0); opacity: 0; } to { transform: scaleY(1); opacity: 1; } }
+        @keyframes pieGrow { from { transform: scale(0.3) rotate(-90deg); opacity: 0; } to { transform: scale(1) rotate(0deg); opacity: 1; } }
+        @keyframes animFadeIn { from { transform: translateY(6px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes slideInToast { from { transform: translateX(40px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <!-- NOTIFICATION SYSTEM FLOATING TARGET HOOK -->
+    <div class="toast-slot-wrapper" id="toastNotificationMasterContainer"></div>
+
+    <div class="app-shell">
+
+        <nav class="sidebar" id="appSidebar">
+            <div class="sidebar-brand">
+                <div class="brand-icon">CP</div>
+                <div class="brand-text">
+                    <strong>Cabin Putih</strong>
+                    <span>Executive Terminal</span>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav">
+                <div class="nav-section-label">Management Analytics</div>
+                <button class="nav-item active" id="btn-nav-analytics" onclick="switchView('analytics')">Corporate Analytics</button>
+                <button class="nav-item" id="btn-nav-staff" onclick="switchView('staff')">Personnel Directory</button>
+                <button class="nav-item" id="btn-nav-replenish" onclick="switchView('replenish')">Replenish Requests</button>
+                <button class="nav-item" id="btn-nav-suppliers" onclick="switchView('suppliers')">Supplier Profiles</button>
+            </div>
+            
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="user-avatar" id="avatarInitials">MGR</div>
+                    <div class="user-info">
+                        <div class="name" id="lblManagerDisplayName">SITI NORBAIZURA</div>
+                        <div class="role">Corporate Permissions</div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="main-content" id="mainContent">
+            
+            <header class="top-header">
+                <div class="header-title">
+                    <span class="breadcrumb">Cabin Putih /</span> Executive Node Terminal
+                </div>
+                <div class="header-actions">
+                    <span class="header-badge">Manager Authorization Mode</span>
+                    <a href="login.html" class="btn-logout">Logout</a>
+                </div>
+            </header>
+
+            <main class="container">
+                
+                <div class="view-section active" id="view-analytics">
+                    <header class="hero-section">
+                        <h1>Executive Overview Analytics</h1>
+                        <p>Live aggregations synchronized with customer checkout terminals and active cash lanes.</p>
+                    </header>
+
+                    <div class="metrics-summary-grid">
+                        <div class="metric-stat-card">
+                            <div class="metric-stat-label">Gross Revenue</div>
+                            <div class="metric-stat-value highlight-amber" id="statGrossRevenue">RM 0.00</div>
+                            <div class="metric-stat-footer">Excludes cancelled tickets</div>
+                        </div>
+                        <div class="metric-stat-card">
+                            <div class="metric-stat-label">Total Invoiced Tickets</div>
+                            <div class="metric-stat-value" id="statTotalOrders">0</div>
+                            <div class="metric-stat-footer">Cumulative table row indexes</div>
+                        </div>
+                        <div class="metric-stat-card">
+                            <div class="metric-stat-label">Active Kitchen Queues</div>
+                            <div class="metric-stat-value" id="statActiveOrders">0</div>
+                            <div class="metric-stat-footer">Processing/Fulfillment stage</div>
+                        </div>
+                        <div class="metric-stat-card">
+                            <div class="metric-stat-label">Rostered Personnel</div>
+                            <div class="metric-stat-value" id="statTotalStaff">0</div>
+                            <div class="metric-stat-footer">Active profiles on disk</div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 32px;">
+                        
+                        <div class="card" style="width: 100%;">
+                            <div class="card-title">Weekly Average Order Value Peak Performance (RM)</div>
+                            <div class="chart-container-vector" style="height: 340px; padding: 24px 40px 40px;">
+                                <svg id="svgWeeklyRevenueChart" width="100%" height="100%" viewBox="0 0 700 240" preserveAspectRatio="none" style="overflow: visible;">
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="card" style="width: 100%;">
+                            <div class="card-title">Revenue Share Metrics Breakdown by Product Category Group</div>
+                            <div class="chart-container-vector" style="height: 300px; display: grid; grid-template-columns: 280px 1fr; align-items: center; justify-items: center; padding: 20px 60px;">
+                                <svg id="svgDiningTypePieChart" width="220" height="220" viewBox="0 0 100 100" style="transform: rotate(-90deg); overflow: visible;">
+                                </svg>
+                                <div id="pieChartLegendLabelsContainer" style="width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 14px; font-size: 0.95rem;">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="view-section" id="view-staff">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+                        <div>
+                            <h1 style="font-size: 2.25rem; font-weight: 700;">Personnel Management</h1>
+                            <p style="color: var(--text-secondary);">Manage, add, or analyze operational crew hierarchies.</p>
+                        </div>
+                        <button type="button" class="btn-promo-action" style="padding: 12px 24px; font-size: 0.9rem;" onclick="openAddStaffModal()">
+                            + Add New Employee
+                        </button>
+                    </div>
+
+                    <div class="history-table-card">
+                        <table class="history-table">
+                            <thead>
+                                <tr>
+                                    <th>Employee ID</th>
+                                    <th>Full Name</th>
+                                    <th>Role Position</th>
+                                    <th>Supervising Manager</th>
+                                    <th style="text-align: right;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="staffDirectoryTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="view-section" id="view-replenish">
+                    <header class="hero-section">
+                        <h1>Stock Replenishment Requests</h1>
+                        <p>Approve stock fill-ups dispatched from kitchen terminals.</p>
+                    </header>
+                    <div class="history-table-card">
+                        <table class="history-table">
+                            <thead>
+                                <tr>
+                                    <th>Item ID</th>
+                                    <th>Product Label</th>
+                                    <th>Category Group</th>
+                                    <th>Current Level</th>
+                                    <th>Threshold Status</th>
+                                    <th style="text-align: right;">Action Link</th>
+                                </tr>
+                            </thead>
+                            <tbody id="replenishRequestsTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="view-section" id="view-suppliers">
+                    <header class="hero-section">
+                        <h1>Supplier Logistics Profile Directory</h1>
+                        <p>Review contact indices and incoming arrival metrics across supply chains.</p>
+                    </header>
+                    <div class="history-table-card">
+                        <table class="history-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Company Name</th>
+                                    <th>Supply Type Class</th>
+                                    <th>Phone Contact</th>
+                                    <th>Next Delivery Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="supplierProfilesTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- MODAL 1: REGISTER STAFF -->
+    <div class="modal-overlay" id="addStaffModalOverlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2 class="modal-title">Register New Employee</h2>
+                <button type="button" class="modal-close-btn" onclick="closeAddStaffModal()">&times;</button>
+            </div>
+            <form onsubmit="handleCreateStaffSubmit(event)">
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" id="txtNewStaffName" class="form-control" required placeholder="e.g. Ahmad bin Ali">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Role Position</label>
+                        <select id="ddlNewStaffRole" class="form-control">
+                            <option value="Cashier">Cashier</option>
+                            <option value="Chef">Chef</option>
+                            <option value="Waiter">Waiter</option>
+                            <option value="Runner">Runner</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Supervising Node</label>
+                        <select id="ddlNewStaffManager" class="form-control">
+                            <option value="EMP001">EMP001 — Siti Norbaizura</option>
+                            <option value="EMP011">EMP011 — Muhammad Luqman</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Temporary Access Password</label>
+                    <input type="text" class="form-control" value="password123" readonly style="opacity:0.6;">
+                </div>
+                <button type="submit" class="btn-submit-order" style="margin-top: 12px;">
+                    Commit To Employee Registry
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- NEW MODAL 2: CONFIRM EMPLOYEE REMOVAL WITH ENFORCED AUTHENTICATION -->
+    <div class="modal-overlay" id="deleteStaffVerificationModalOverlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2 class="modal-title" style="color: var(--danger);">Remove Employee Profile</h2>
+                <button type="button" class="modal-close-btn" onclick="closeDeleteStaffModal()">&times;</button>
+            </div>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 16px;">
+                Review the structural staff parameters below before dropping this employee row from system indices.
+            </p>
+            
+            <div class="preview-data-sheet">
+                <div class="preview-data-row"><span class="preview-data-label">Employee ID:</span><span class="preview-data-value" id="lblDelStaffNum"></span></div>
+                <div class="preview-data-row"><span class="preview-data-label">Full Name:</span><span class="preview-data-value" id="lblDelStaffName"></span></div>
+                <div class="preview-data-row"><span class="preview-data-label">Role Position:</span><span class="preview-data-value" id="lblDelStaffRole"></span></div>
+            </div>
+
+            <form onsubmit="handleExecuteDeleteStaffSubmit(event)">
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label class="form-label" style="color: var(--amber);">Confirm Manager Password</label>
+                    <input type="password" id="txtManagerVerificationPassword" class="form-control" required placeholder="Enter your credential password">
+                </div>
+                <button type="submit" class="btn-submit-order" style="background: var(--danger); color: white;">
+                    Permanently Terminate Row Matrix
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="app_manager.js"></script>
+</body>
+</html>

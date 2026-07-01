@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cabin Putih — My Profile</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+    <style>
+        /* ============================================================
+           CABIN PUTIH PROFILE THEME — DYNAMIC BACKEND INTERFACE
+           ============================================================ */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+          --bg-main:       #0b0f19;
+          --bg-surface:    #131a2a;
+          --bg-card:       #1c263c;
+          --border:        #24324f;
+          --amber:         #f59e0b;
+          --amber-hover:   #fbbf24;
+          --text-primary:  #f8fafc;
+          --text-secondary:#94a3b8;
+          --radius-xl:     24px;
+          --radius-sm:     8px;
+          --font-family:   'Plus Jakarta Sans', system-ui, sans-serif;
+          --transition:    0.25s ease;
+        }
+
+        body {
+          font-family: var(--font-family);
+          background-color: var(--bg-main);
+          color: var(--text-primary);
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+        }
+
+        /* ---- NAVIGATION LAYOUT ---- */
+        header {
+            background-color: var(--bg-surface);
+            border-bottom: 1px solid var(--border);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header h1 { font-size: 1.4rem; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+        .nav-links { display: flex; gap: 24px; align-items: center; }
+        .nav-item { color: var(--text-secondary); text-decoration: none; font-size: 0.92rem; font-weight: 500; transition: var(--transition); }
+        .nav-item:hover, .nav-item.active { color: var(--text-primary); }
+        .user-pill { background: var(--bg-card); border: 1px solid var(--border); padding: 6px 14px; border-radius: 99px; font-weight: 600; color: var(--amber); font-size: 0.85rem; display: flex; align-items: center; gap: 6px; }
+        .btn-logout { background: transparent; border: 1px solid var(--border); color: var(--text-secondary); padding: 8px 16px; border-radius: 99px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: var(--transition); }
+        .btn-logout:hover { color: var(--text-primary); border-color: var(--text-secondary); }
+
+        /* ---- PROFILE CONTAINER SYSTEM ---- */
+        .content-area {
+            max-width: 800px;
+            width: 100%;
+            margin: 60px auto padding;
+            padding: 0 20px;
+        }
+        .heading-block { margin-bottom: 32px; }
+        .heading-block h2 { font-size: 2.2rem; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.02em; }
+        .heading-block p { color: var(--text-secondary); font-size: 1rem; }
+
+        .profile-card {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+        .form-group { display: flex; flex-direction: column; }
+        .form-group.full-width { grid-column: span 2; }
+        .form-label { font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+        .form-control { background-color: var(--bg-main); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-primary); padding: 14px 16px; font-size: 0.95rem; outline: none; transition: var(--transition); font-family: var(--font-family); }
+        .form-control:focus { border-color: var(--amber); box-shadow: 0 0 0 3px rgba(245,158,11,0.15); }
+
+        .btn-submit { background-color: var(--amber); color: #0b0f19; width: 100%; padding: 16px; border-radius: var(--radius-sm); font-size: 0.98rem; font-weight: 700; cursor: pointer; border: none; transition: var(--transition); font-family: var(--font-family); margin-top: 8px; }
+        .btn-submit:hover:not(:disabled) { background-color: var(--amber-hover); }
+        .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .card-footer { margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 0.82rem; color: var(--text-muted); }
+        .footer-highlight { color: var(--amber); font-weight: 600; }
+
+        /* ---- ALERTS ---- */
+        .alert { padding: 14px 18px; border-radius: var(--radius-sm); font-size: 0.9rem; margin-bottom: 24px; font-weight: 500; border-left: 4px solid #ef4444; background: rgba(239,68,68,0.12); display: none; }
+        .alert-success { border-left-color: #22c55e; background: rgba(34,197,94,0.12); }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1><span>☕</span> Cabin Putih</h1>
+    <div class="nav-links">
+        <a href="dashboard_customer.html" class="nav-item">Home</a>
+        <a href="dashboard_customer.html" class="nav-item">Menu</a>
+        <a href="#" class="nav-item">Order Tracker</a>
+        <a href="#" class="nav-item">Order History</a>
+        <div class="user-pill">MA <span id="pillUserName">User</span></div>
+        <button class="btn-logout" onclick="processSessionExit()">Logout</button>
+    </div>
+</header>
+
+<div class="content-area">
+    <div class="heading-block">
+        <h2>My Profile</h2>
+        <p>Manage your account parameters, data constraints, and verification credentials.</p>
+    </div>
+
+    <div id="alertBox" class="alert"></div>
+
+    <div class="profile-card">
+        <form onsubmit="saveCustomerProfileDetails(event)">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label">First Name</label>
+                    <input type="text" id="profFirst" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Last Name</label>
+                    <input type="text" id="profLast" class="form-control" required>
+                </div>
+                <div class="form-group full-width">
+                    <label class="form-label">Phone Number</label>
+                    <input type="text" id="profPhone" class="form-control" required>
+                </div>
+            </div>
+
+            <button type="submit" id="saveBtn" class="btn-submit">Save System Profile</button>
+        </form>
+
+        <div class="card-footer">
+            <div>Customer Reference ID: <span class="footer-highlight" id="lblCustID">LOADING...</span></div>
+            <div>Engine Layer: Oracle APEX</div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Backend Connection Strings Context
+const API_BASE_URL = 'https://oracleapex.com/ords/cabin_putih/cabin_api/';
+const currentCustomerID = sessionStorage.getItem('cp_cust_id') || 'CUS001'; // Falls back to CUS001 if testing directly
+
+document.addEventListener("DOMContentLoaded", () => {
+    fetchActiveProfileRecord();
+});
+
+function displayBannerNotification(status, message) {
+    const box = document.getElementById('alertBox');
+    box.innerText = message;
+    box.className = status === 'success' ? 'alert alert-success' : 'alert';
+    box.style.display = 'block';
+}
+
+// 1. PULL DATA FROM THE CUSTOMER TABLE EXPOSED VIEW
+async function fetchActiveProfileRecord() {
+    try {
+        const response = await fetch(`${API_BASE_URL}customer/profile?cust_id=${currentCustomerID}`, {
+            method: 'GET'
+        });
+        const payload = await response.json();
+        
+        if (payload.items && payload.items.length > 0) {
+            const userRecord = payload.items[0];
+
+            // Map database outputs into fields
+            document.getElementById('profFirst').value = userRecord.first_name || '';
+            document.getElementById('profLast').value = userRecord.last_name || '';
+            document.getElementById('profPhone').value = userRecord.phone_num || '';
+            document.getElementById('lblCustID').innerText = userRecord.cust_id;
+
+            // Generate initials for the navigation circle
+            const initialMatch = userRecord.first_name ? userRecord.first_name.substring(0, 2) : 'MA';
+            document.getElementById('pillUserName').innerText = userRecord.first_name;
+        } else {
+            displayBannerNotification('error', 'Profile context could not be resolved from DB runtime.');
+        }
+    } catch (err) {
+        displayBannerNotification('error', 'Network failure executing remote database configuration schemas.');
+    }
+}
+
+// 2. DISPATCH PROFILE CHANGES USING AN ASYNC TRANSACTION LOOP
+async function saveCustomerProfileDetails(e) {
+    e.preventDefault();
+    const saveBtn = document.getElementById('saveBtn');
+    saveBtn.disabled = true;
+    saveBtn.innerText = "Synchronizing Form State...";
+
+    const formMapping = {
+        cust_id: currentCustomerID,
+        first_name: document.getElementById('profFirst').value.trim(),
+        last_name: document.getElementById('profLast').value.trim(),
+        phone_num: document.getElementById('profPhone').value.trim()
+    };
+
+    try {
+        const response = await fetch(`${API_BASE_URL}customer/update_profile`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams(formMapping)
+        });
+        const feedback = await response.json();
+
+        if (feedback.status === 'success') {
+            displayBannerNotification('success', feedback.message);
+            // Sync locally stored names to match updated database layout
+            sessionStorage.setItem('cp_cust_first', formMapping.first_name);
+            document.getElementById('pillUserName').innerText = formMapping.first_name;
+        } else {
+            displayBannerNotification('error', feedback.message);
+        }
+    } catch (err) {
+        displayBannerNotification('error', 'CORS or Network fault writing to structural data schemas.');
+    } finally {
+        saveBtn.disabled = false;
+        saveBtn.innerText = "Save System Profile";
+    }
+}
+
+function processSessionExit() {
+    sessionStorage.clear();
+    window.location.href = 'login.html';
+}
+</script>
+</body>
+</html>

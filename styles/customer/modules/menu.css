@@ -1,0 +1,170 @@
+/* ============================================================
+   MENU STYLES - Food cards, filters, cart panel
+   ============================================================ */
+
+/* ---- FOOD TYPE FILTER CONTROLS ---- */
+.filter-container {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 32px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+}
+
+.filter-btn {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    padding: 10px 24px;
+    border-radius: 99px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: var(--transition);
+}
+
+.filter-btn:hover {
+    border-color: var(--amber);
+    color: var(--text-primary);
+}
+
+.filter-btn.active {
+    background-color: var(--amber-faint);
+    border-color: var(--amber);
+    color: var(--amber);
+}
+
+/* ---- TWO-COLUMN SHOPPING INTERFACE LAYOUT ---- */
+.pos-layout {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 32px;
+    align-items: start;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 24px;
+}
+
+.food-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    transition: transform var(--transition), border-color var(--transition);
+    display: flex;
+    flex-direction: column;
+}
+
+.food-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(245, 158, 11, 0.3);
+}
+
+.food-card .food-img-wrapper {
+    position: relative;
+    width: 100%;
+    padding-top: 66%;
+    background-color: var(--bg-card);
+    overflow: hidden;
+}
+
+.food-card .food-img-wrapper img {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+}
+
+.food-info {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.food-title { font-size: 1.1rem; font-weight: 600; color: var(--text-primary); line-height: 1.4; }
+.food-meta { display: flex; align-items: center; justify-content: space-between; }
+.food-price { font-size: 1.2rem; font-weight: 700; color: var(--amber); }
+
+.food-card .sold-out-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(11, 15, 25, 0.7);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.food-card .sold-out-pill {
+    background: var(--danger);
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 6px 16px;
+    border-radius: 99px;
+}
+
+.btn-add-to-cart-pos {
+    width: auto;
+    padding: 0 20px;
+    height: 36px;
+    background-color: var(--bg-pill);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-add-to-cart-pos:hover:not([disabled]) {
+    background-color: var(--amber);
+    color: #0b0f19;
+    border-color: var(--amber);
+}
+
+.btn-add-to-cart-pos:disabled {
+    background-color: var(--bg-pill);
+    color: var(--text-muted);
+    border-color: var(--border);
+    cursor: not-allowed;
+}
+
+/* ---- REGISTER CART PANEL ---- */
+.cart-panel { background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; padding: 24px; position: sticky; top: 104px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+.cart-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; }
+.cart-badge { background: var(--amber); color: #0b0f19; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800; }
+.cart-empty { text-align: center; color: var(--text-muted); padding: 32px 0; font-size: 0.9rem; }
+.cart-items { max-height: 360px; overflow-y: auto; margin-bottom: 20px; padding-right: 4px; }
+.cart-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); gap: 10px; }
+.cart-item-name { font-size: 0.9rem; font-weight: 600; flex: 1; color: var(--text-primary); }
+.cart-item-qty { font-size: 0.85rem; font-weight: 700; color: var(--text-secondary); background: var(--bg-main); padding: 2px 8px; border-radius: 99px; }
+.cart-item-price { font-size: 0.9rem; font-weight: 700; color: var(--amber); width: 68px; text-align: right; }
+.cart-remove { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.2rem; transition: var(--transition); padding: 0 4px; }
+.cart-remove:hover { color: var(--danger); }
+.cart-divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+.cart-total-row { display: flex; justify-content: space-between; align-items: center; }
+.cart-total-value { font-size: 1.3rem; font-weight: 800; color: var(--amber); letter-spacing: -0.01em; }
+
+.btn-cart-action { width: 100%; padding: 12px; border-radius: 99px; font-size: 0.95rem; font-weight: 700; cursor: pointer; border: none; transition: var(--transition); font-family: var(--font-family); margin-top: 10px; }
+.btn-cart-action.primary { background-color: var(--amber); color: #0b0f19; }
+.btn-cart-action.primary:hover { background-color: var(--amber-hover); }
+.btn-cart-action.secondary { background-color: var(--bg-pill); color: var(--text-primary); border: 1px solid var(--border); }
+.btn-cart-action.secondary:hover { background-color: var(--border); }
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 992px) {
+    .pos-layout { grid-template-columns: 1fr; gap: 24px; }
+    .cart-panel { position: static; width: 100%; }
+}

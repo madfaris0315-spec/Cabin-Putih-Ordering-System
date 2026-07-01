@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cabin Putih — Customer Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app-shell">
+
+    <nav class="sidebar" id="appSidebar">
+        <div class="sidebar-brand">
+            <div class="brand-icon">CP</div>
+            <div class="brand-text">
+                <strong>Cabin Putih</strong>
+                <span>Ordering System</span>
+            </div>
+        </div>
+
+        <button class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+        </button>
+
+        <div class="sidebar-nav">
+            <div class="nav-section-label">Menu</div>
+
+            <button class="nav-item active" id="nav-order" onclick="switchView('order')">
+                <span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></span>
+                <span class="nav-label">Order Food</span>
+            </button>
+
+            <button class="nav-item" id="nav-tracker" onclick="switchView('tracker')">
+                <span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>
+                <span class="nav-label">Order Tracker</span>
+            </button>
+
+            <div class="nav-section-label">Account</div>
+
+            <button class="nav-item" id="nav-profile" onclick="switchView('profile')">
+                <span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+                <span class="nav-label">My Profile</span>
+            </button>
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="sidebar-user">
+                <div class="user-avatar">MA</div>
+                <div class="user-info">
+                    <div class="name">MUHAMMAD AMIR HAKIMI</div>
+                    <div class="role">CUS001</div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content" id="mainContent">
+        <header class="top-header">
+            <div class="header-title">
+                <span class="breadcrumb">Cabin Putih /</span> Customer Dashboard
+            </div>
+            <div class="header-actions">
+                <span class="header-badge" id="header-cart-badge">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                    <span id="header-cart-count">2</span> items
+                </span>
+                <span class="header-badge" style="background:var(--bg-elevated);border-color:var(--border);color:var(--text-secondary);">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    Customer
+                </span>
+                <a href="login.html" class="btn btn-secondary btn-sm" style="font-size:0.75rem;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Logout
+                </a>
+            </div>
+        </header>
+
+        <main class="page-body">
+            <div id="alert-container"></div>
+
+            <div class="view-section active" id="view-order">
+                <div class="page-header">
+                    <div>
+                        <h2>Order Food</h2>
+                        <div class="subtitle">Browse our menu and build your order</div>
+                    </div>
+                </div>
+
+                <div class="two-col-layout">
+                    <div>
+                        <div class="menu-grid">
+                            <div class="menu-card">
+                                <div class="menu-img-box">
+                                    <img src="https://images.pexels.com/photos/1251198/pexels-photo-1251198.jpeg?auto=compress&cs=tinysrgb&w=120&h=120&dpr=1" alt="Chicken Zinger Burger" loading="lazy">
+                                </div>
+                                <div class="menu-card-body">
+                                    <div class="menu-card-name">Chicken Zinger Burger</div>
+                                    <div class="menu-card-price">RM 5.50</div>
+                                    <div class="menu-card-meta">
+                                        <span class="tag tag-amber">Available</span>
+                                        <span class="stock-label" style="font-size:0.7rem;color:var(--text-muted);">Qty: 100</span>
+                                    </div>
+                                    <form onsubmit="event.preventDefault(); handleAddToCart('ITM001', 'Chicken Zinger Burger', 5.50, this);">
+                                        <div class="qty-control" style="margin-top:8px; margin-bottom:6px;">
+                                            <button type="button" class="qty-btn" onclick="changeQty(this,-1)">&#8722;</button>
+                                            <input type="number" name="qty" class="qty-input" value="1" min="1" max="100">
+                                            <button type="button" class="qty-btn" onclick="changeQty(this,1)">&#43;</button>
+                                        </div>
+                                        <button type="submit" class="btn-add-cart">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                                            Add to Cart
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="menu-card out-of-stock">
+                                <div class="menu-img-box">
+                                    <img src="https://images.pexels.com/photos/60616/fried-chicken-chicken-fried-crunchy-60616.jpeg?auto=compress&cs=tinysrgb&w=120&h=120&dpr=1" alt="Hot Chicken Tenders" loading="lazy">
+                                    <div class="oos-overlay"><span class="oos-label">Currently<br>Unavailable</span></div>
+                                </div>
+                                <div class="menu-card-body">
+                                    <div class="menu-card-name">Hot Chicken Tenders</div>
+                                    <div class="menu-card-price">RM 6.00</div>
+                                    <div class="menu-card-meta">
+                                        <span class="tag">Out of Stock</span>
+                                        <span class="stock-label" style="font-size:0.7rem;color:var(--text-muted);"></span>
+                                    </div>
+                                    <button class="btn-add-cart" disabled style="margin-top:8px;opacity:0.35;">Unavailable</button>
+                                </div>
+                            </div>
+
+                            <div class="menu-card">
+                                <div class="menu-img-box">
+                                    <img src="https://images.pexels.com/photos/1907228/pexels-photo-1907228.jpeg?auto=compress&cs=tinysrgb&w=120&h=120&dpr=1" alt="Fry Maggi Chicken Original" loading="lazy">
+                                </div>
+                                <div class="menu-card-body">
+                                    <div class="menu-card-name">Fry Maggi Chicken Original</div>
+                                    <div class="menu-card-price">RM 5.50</div>
+                                    <div class="menu-card-meta">
+                                        <span class="tag tag-amber">Available</span>
+                                        <span class="stock-label" style="font-size:0.7rem;color:var(--text-muted);">Qty: 100</span>
+                                    </div>
+                                    <form onsubmit="event.preventDefault(); handleAddToCart('ITM011', 'Fry Maggi Chicken Original', 5.50, this);">
+                                        <div class="qty-control" style="margin-top:8px; margin-bottom:6px;">
+                                            <button type="button" class="qty-btn" onclick="changeQty(this,-1)">&#8722;</button>
+                                            <input type="number" name="qty" class="qty-input" value="1" min="1" max="100">
+                                            <button type="button" class="qty-btn" onclick="changeQty(this,1)">&#43;</button>
+                                        </div>
+                                        <button type="submit" class="btn-add-cart">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                                            Add to Cart
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="cart-panel">
+                            <div class="cart-title">
+                                My Cart
+                                <span class="cart-badge" id="cart-panel-badge">2</span>
+                            </div>
+
+                            <div id="cart-contents">
+                                <div class="cart-items">
+                                    <div class="cart-row" id="cart-row-ITM018">
+                                        <span class="cart-item-name">Cold Lipton Lemon Tea o</span>
+                                        <span class="cart-item-qty">x1</span>
+                                        <span class="cart-item-price">RM 3.50</span>
+                                        <button type="button" class="cart-remove" title="Remove" onclick="removeCartItem('ITM018')">&times;</button>
+                                    </div>
+                                    <div class="cart-row" id="cart-row-ITM011">
+                                        <span class="cart-item-name">Fry Maggi Chicken Original</span>
+                                        <span class="cart-item-qty">x1</span>
+                                        <span class="cart-item-price">RM 5.50</span>
+                                        <button type="button" class="cart-remove" title="Remove" onclick="removeCartItem('ITM011')">&times;</button>
+                                    </div>
+                                </div>
+                                <hr class="cart-divider">
+                                <div class="cart-total-row" style="margin-bottom:14px;">
+                                    <span class="cart-total-label">Total</span>
+                                    <span class="cart-total-value" id="cart-total-value">RM 9.00</span>
+                                </div>
+
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="clearCart()">Clear Cart</button>
+                                <button class="btn btn-primary btn-sm" onclick="openCheckoutModal()">Proceed to Checkout</button>
+                            </div>
+                            <div id="cart-empty-message" class="cart-empty" style="display:none;">Your cart is empty.<br>Add items from the menu.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="view-section" id="view-tracker">
+                <div class="page-header">
+                    <div>
+                        <h2>My Order Tracker</h2>
+                        <div class="subtitle">Live status of your orders</div>
+                    </div>
+                </div>
+
+                <div id="orders-tracker-list">
+                    <div class="order-track-card" id="order-card-ORD020">
+                        <div>
+                            <div class="order-track-id">ORD020</div>
+                            <div style="font-size:0.72rem;color:var(--text-muted);">2026-06-28 &bull; Dine-In</div>
+                        </div>
+                        <div class="order-track-info">
+                            <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+                                <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+                                    <div class="progress-dot active"></div>
+                                    <span style="font-size:0.6rem;color:var(--text-muted);white-space:nowrap;">Received</span>
+                                </div>
+                                <div class="progress-line"></div>
+                                <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+                                    <div class="progress-dot"></div>
+                                    <span style="font-size:0.6rem;color:var(--text-muted);white-space:nowrap;">Preparing</span>
+                                </div>
+                                <div class="progress-line"></div>
+                                <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+                                    <div class="progress-dot"></div>
+                                    <span style="font-size:0.6rem;color:var(--text-muted);white-space:nowrap;">Ready for Pickup</span>
+                                </div>
+                                <div class="progress-line"></div>
+                                <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+                                    <div class="progress-dot"></div>
+                                    <span style="font-size:0.6rem;color:var(--text-muted);white-space:nowrap;">Completed</span>
+                                </div>
+                            </div>
+                            <div class="order-track-items">Fry Maggi Chicken Keju Leleh x1, Combo A (Fries + 2pcs Chicken) x1</div>
+                        </div>
+                        <div style="text-align:right;flex-shrink:0;">
+                            <div style="font-size:1rem;font-weight:700;color:var(--amber);">RM 16.50</div>
+                            <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:6px;">DuitNow QR</div>
+                            <button type="button" class="btn btn-danger btn-sm" onclick="cancelOrder('ORD020')">Cancel</button>
+                        </div>
+                    </div>
+
+                    <div class="order-track-card">
+                        <div>
+                            <div class="order-track-id">ORD001</div>
+                            <div style="font-size:0.72rem;color:var(--text-muted);">2026-05-02 &bull; Dine-In</div>
+                        </div>
+                        <div class="order-track-info">
+                            <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+                                <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+                                    <div class="progress-dot done"></div>
+                                    <span style="font-size:0.6rem;color:var(--text-muted);white-space:nowrap;">Received</span>
+                                </div>
+                                <div class="progress-line done"></div>
+                                <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+                                    <div class="progress-dot done"></div>
+                                    <span style="font-size:0.6rem;color:var(--text-muted);white-space:nowrap;">Preparing</span>
+                                </div>
+                                <div class="progress-line done"></div>
+                                <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+                                    <div class="progress-dot done"></div>
+                                    <span style="font-size:0.6rem;color:var(--text-muted);white-space:nowrap;">Ready for Pickup</span>
+                                </div>
+                                <div class="progress-line done"></div>
+                                <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+                                    <div class="progress-dot active"></div>
+                                    <span style="font-size:0.6rem;color:var(--text-muted);white-space:nowrap;">Completed</span>
+                                </div>
+                            </div>
+                            <div class="order-track-items">Cold Lipton Lemon Tea o x1, Fry Maggi Chicken Original x1</div>
+                        </div>
+                        <div style="text-align:right;flex-shrink:0;">
+                            <div style="font-size:1rem;font-weight:700;color:var(--amber);">RM 9.00</div>
+                            <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:6px;">DuitNow QR</div>
+                            <span class="badge badge-success">Completed</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="view-section" id="view-profile">
+                <div class="page-header">
+                    <div>
+                        <h2>My Profile</h2>
+                        <div class="subtitle">Update your personal details</div>
+                    </div>
+                </div>
+                <div class="card" style="max-width:500px;">
+                    <div class="card-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        Account Information
+                    </div>
+                    <form onsubmit="event.preventDefault(); triggerAlert('success', 'Profile updated.');">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">First Name</label>
+                                <input type="text" name="p_first" class="form-control" value="MUHAMMAD AMIR HAKIMI">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Last Name</label>
+                                <input type="text" name="p_last" class="form-control" value="ABD RAHMAN">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Phone Number</label>
+                            <input type="text" name="p_phone" class="form-control" value="011-2345678">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">New Password <span style="color:var(--text-muted);font-weight:400;">(leave blank to keep current)</span></label>
+                            <input type="password" name="p_password" class="form-control" placeholder="Enter new password">
+                        </div>
+                        <div style="display:flex;gap:10px;margin-top:6px;">
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                    <hr class="divider">
+                    <div style="font-size:0.78rem;color:var(--text-muted);">
+                        Customer ID: <span style="color:var(--amber);font-family:monospace;">CUS001</span>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <footer class="site-footer">
+            <span>&copy; 2026 Cabin Putih F&amp;B Sdn Bhd — All rights reserved.</span>
+            <span style="color:var(--border-light);">Powered by Oracle APEX &amp; ORDS</span>
+        </footer>
+        <div class="toast-container" id="toastContainer"></div>
+    </div></div><div class="modal-overlay" id="checkoutModal">
+    <div class="modal-box">
+        <div class="modal-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            Checkout
+        </div>
+        <button class="modal-close" onclick="document.getElementById('checkoutModal').classList.remove('open')">&times;</button>
+
+        <div class="checkout-summary" id="modal-checkout-summary">
+            </div>
+
+        <form onsubmit="event.preventDefault(); handleCheckout();">
+            <div class="form-group">
+                <label class="form-label">Dining Type</label>
+                <select name="dining_type" class="form-control">
+                    <option>Dine-In</option>
+                    <option>Take-Away</option>
+                    <option>Delivery</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Payment Method</label>
+                <select name="pay_type" class="form-control">
+                    <option>Cash</option>
+                    <option>DuitNow QR</option>
+                    <option>Credit Card</option>
+                    <option>E-Wallet</option>
+                </select>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:4px;">
+                <button type="button" class="btn btn-secondary" style="flex:1;" onclick="document.getElementById('checkoutModal').classList.remove('open')">Cancel</button>
+                <button type="submit" class="btn btn-primary" style="flex:1;">Place Order</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+// Mock Global Cart Data Object Structure
+let cartData = {
+    'ITM018': { name: 'Cold Lipton Lemon Tea o', qty: 1, price: 3.50 },
+    'ITM011': { name: 'Fry Maggi Chicken Original', qty: 1, price: 5.50 }
+};
+
+// Sidebar Layout UI Collapse Control Engine
+(function() {
+    const sidebar  = document.getElementById('appSidebar');
+    const toggle   = document.getElementById('sidebarToggle');
+    const main     = document.querySelector('.main-content');
+    const collapsed = localStorage.getItem('sidebarCollapsed') === '1';
+
+    if (collapsed) { 
+        sidebar.classList.add('collapsed'); 
+        if(main) main.classList.add('expanded'); 
+    }
+
+    toggle.addEventListener('click', () => {
+        const isNowCollapsed = sidebar.classList.toggle('collapsed');
+        if(main) main.classList.toggle('expanded', isNowCollapsed);
+        localStorage.setItem('sidebarCollapsed', isNowCollapsed ? '1' : '0');
+    });
+})();
+
+// SPA Client-Side View Engine Router
+function switchView(viewId) {
+    document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    
+    const activeSection = document.getElementById('view-' + viewId);
+    const activeNav = document.getElementById('nav-' + viewId);
+    
+    if (activeSection) activeSection.classList.add('active');
+    if (activeNav) activeNav.classList.add('active');
+    
+    // Clear page notifications on redirect actions
+    document.getElementById('alert-container').innerHTML = '';
+}
+
+// Client Side UI Counter Adjustments
+function changeQty(btn, delta) {
+    const inp = btn.closest('.qty-control').querySelector('input[type=number]');
+    const min = parseInt(inp.min) || 1;
+    const max = parseInt(inp.max) || 999;
+    inp.value = Math.min(max, Math.max(min, parseInt(inp.value) + delta));
+}
+
+// Global Core Notification Toast Toast Trigger Engine
+function showToast(msg, type = 'info', duration = 3000) {
+    const c = document.getElementById('toastContainer');
+    const t = document.createElement('div');
+    t.className = 'toast ' + type;
+    t.textContent = msg;
+    c.appendChild(t);
+    setTimeout(() => { 
+        t.style.opacity = '0'; 
+        t.style.transform = 'translateX(20px)'; 
+        t.style.transition = '0.3s'; 
+        setTimeout(() => t.remove(), 320); 
+    }, duration);
+}
+
+// Top Screen Context Alert Box Notification Builder
+function triggerAlert(type, message) {
+    const container = document.getElementById('alert-container');
+    let classes = "";
+    if(type === 'success') classes = "alert alert-success";
+    if(type === 'danger') classes = "alert alert-danger";
+    if(type === 'info') classes = "alert alert-info";
+    
+    container.innerHTML = `<div class="${classes}" style="margin-bottom:16px;">${message}</div>`;
+    window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// Synchronize all UI counts across dashboard panels
+function updateCartUI() {
+    const itemsArray = Object.keys(cartData);
+    let totalItems = 0;
+    let totalPrice = 0.00;
+    
+    const cartItemsContainer = document.querySelector('.cart-items');
+    if (!cartItemsContainer) return;
+    
+    cartItemsContainer.innerHTML = '';
+    
+    if(itemsArray.length === 0) {
+        document.getElementById('cart-contents').style.display = 'none';
+        document.getElementById('cart-empty-message').style.display = 'block';
+        document.getElementById('header-cart-badge').style.display = 'none';
+        document.getElementById('cart-panel-badge').textContent = '0';
+        return;
+    }
+    
+    document.getElementById('cart-contents').style.display = 'block';
+    document.getElementById('cart-empty-message').style.display = 'none';
+    document.getElementById('header-cart-badge').style.display = 'inline-flex';
+    
+    itemsArray.forEach(id => {
+        const item = cartData[id];
+        totalItems += item.qty;
+        const subtotal = item.price * item.qty;
+        totalPrice += subtotal;
+        
+        cartItemsContainer.innerHTML += `
+            <div class="cart-row" id="cart-row-${id}">
+                <span class="cart-item-name">${item.name}</span>
+                <span class="cart-item-qty">x${item.qty}</span>
+                <span class="cart-item-price">RM ${subtotal.toFixed(2)}</span>
+                <button type="button" class="cart-remove" title="Remove" onclick="removeCartItem('${id}')">&times;</button>
+            </div>`;
+    });
+    
+    document.getElementById('header-cart-count').textContent = totalItems;
+    document.getElementById('cart-panel-badge').textContent = totalItems;
+    document.getElementById('cart-total-value').textContent = `RM ${totalPrice.toFixed(2)}`;
+}
+
+// Cart Mutation Action Engines
+function handleAddToCart(id, name, price, formElement) {
+    const qtyInput = formElement.querySelector('.qty-input');
+    const inputQty = parseInt(qtyInput.value) || 1;
+    
+    if (cartData[id]) {
+        cartData[id].qty += inputQty;
+    } else {
+        cartData[id] = { name: name, qty: inputQty, price: price };
+    }
+    
+    qtyInput.value = 1; // Reset selection input element
+    updateCartUI();
+    showToast('Item added to cart!', 'success');
+}
+
+function removeCartItem(id) {
+    delete cartData[id];
+    updateCartUI();
+}
+
+function clearCart() {
+    cartData = {};
+    updateCartUI();
+}
+
+// Modal Form Controllers
+function openCheckoutModal() {
+    const itemsArray = Object.keys(cartData);
+    if (itemsArray.length === 0) {
+        showToast('Your cart is empty!', 'error');
+        return;
+    }
+    
+    const summaryContainer = document.getElementById('modal-checkout-summary');
+    summaryContainer.innerHTML = '';
+    let totalPrice = 0;
+    
+    itemsArray.forEach(id => {
+        const item = cartData[id];
+        const subtotal = item.price * item.qty;
+        totalPrice += subtotal;
+        summaryContainer.innerHTML += `
+            <div class="checkout-line">
+                <span>${item.name} &times;${item.qty}</span>
+                <span>RM ${subtotal.toFixed(2)}</span>
+            </div>`;
+    });
+    
+    summaryContainer.innerHTML += `
+        <div class="checkout-line total">
+            <span>Total</span>
+            <span>RM ${totalPrice.toFixed(2)}</span>
+        </div>`;
+        
+    document.getElementById('checkoutModal').classList.add('open');
+}
+
+function handleCheckout() {
+    document.getElementById('checkoutModal').classList.remove('open');
+    clearCart();
+    switchView('tracker');
+    triggerAlert('success', 'Order ORD021 placed successfully!');
+}
+
+function cancelOrder(orderId) {
+    if(confirm('Cancel this order?')) {
+        const card = document.getElementById('order-card-' + orderId);
+        if(card) card.remove();
+        triggerAlert('info', 'Order cancelled.');
+    }
+}
+
+// Backdrop modal click listener bindings
+document.getElementById('checkoutModal').addEventListener('click', function(e) {
+    if (e.target === this) this.classList.remove('open');
+});
+</script>
+</body>
+</html>

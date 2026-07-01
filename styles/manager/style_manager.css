@@ -1,0 +1,26 @@
+/* ============================================================
+   CABIN PUTIH EXECUTIVE MANAGEMENT THEME
+   Main stylesheet - imports all modular CSS components
+   Palette: Midnight Navy (#0B0F19) + Warm Amber (#F59E0B)
+   ============================================================ */
+
+/* Core: Variables, reset, sidebar, shell, header, shared components */
+@import url('./modules/core.css');
+
+/* Analytics: KPI cards, bar chart, pie chart */
+@import url('./modules/analytics.css');
+
+/* Staff: Personnel directory table */
+@import url('./modules/staff.css');
+
+/* Replenish: Stock replenishment requests table */
+@import url('./modules/replenish.css');
+
+/* Suppliers: Supplier logistics directory table */
+@import url('./modules/suppliers.css');
+
+/* Modals: Register staff, delete confirmation */
+@import url('./modules/modals.css');
+
+/* Toast: Floating notification alerts */
+@import url('./modules/toast.css');

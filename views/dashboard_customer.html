@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cabin Putih — Premium Food Delivery</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="../../styles/customer/style_customer.css">
+</head>
+<body>
+
+    <nav class="top-nav">
+        <div class="nav-left">
+            <div class="brand" onclick="switchView('home')">
+                <div class="brand-icon">CP</div>
+                <span>Cabin Putih</span>
+            </div>
+            <div class="nav-links">
+                <button class="nav-link active" id="btn-nav-home" onclick="switchView('home')">Home</button>
+                <button class="nav-link" id="btn-nav-order" onclick="switchView('order')">Menu</button>
+                <button class="nav-link" id="btn-nav-tracker" onclick="switchView('tracker')">Order Tracker</button>
+                <button class="nav-link" id="btn-nav-history" onclick="switchView('history')">Order History</button>
+            </div>
+        </div>
+        <div class="nav-right">
+            <button class="user-menu" onclick="switchView('profile')" id="btn-nav-profile" title="View Account Profile">
+                <div class="user-avatar" id="avatarInitials">CP</div>
+                <span id="nav-display-username" style="font-size: 0.9rem; font-weight: 600; color: var(--text-secondary);">LOADING...</span>
+            </button>
+            <a href="../login.html" class="btn-logout">Logout</a>
+        </div>
+    </nav>
+
+    <main class="container">
+
+        <!-- HOME VIEW -->
+        <div class="view-section active" id="view-home">
+            <div class="welcome-promo-banner">
+                <div class="promo-content">
+                    <h2 id="homeWelcomeBannerHeader">Welcome Back!</h2>
+                    <p>Craving our iconic signature recipes? Grab 15% off your next digital Dine-In order using code <strong style="color:var(--amber);">CABIN15</strong> at the counter register terminal.</p>
+                </div>
+            </div>
+
+            <div class="section-heading-row">
+                <h3 class="section-title">Chef's Recommendations</h3>
+            </div>
+
+            <div class="menu-grid" id="homeRecommendationsTargetGrid">
+                <div class="loading">Loading our premium database selections...</div>
+            </div>
+
+            <div class="center-button-container">
+                <button type="button" class="btn-promo-action" onclick="switchView('order')">
+                    Browse Full Menu &rarr;
+                </button>
+            </div>
+        </div>
+
+        <!-- MENU VIEW -->
+        <div class="view-section" id="view-order">
+            <header class="hero-section">
+                <h1>What are you craving today?</h1>
+                <p>Fresh ingredients, premium cabin recipes delivered straight to your table.</p>
+            </header>
+
+            <div class="filter-container" id="customerCategoryFilterWrapper"></div>
+
+            <div class="pos-layout">
+                <div class="menu-grid" id="mainMenuCatalogGrid">
+                    <div class="loading">Sourcing available kitchen inventory rows...</div>
+                </div>
+
+                <div class="cart-panel">
+                    <div class="cart-title">Order Cart <span class="cart-badge" id="cartPanelCount">0</span></div>
+                    <div id="cartContentWrapper"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ORDER TRACKER VIEW -->
+        <div class="view-section" id="view-tracker">
+            <div id="trackerAlertNotificationSlot"></div>
+            <header class="hero-section">
+                <h1>My Order Tracker</h1>
+                <p>Live, real-time preparation metrics for your recent kitchen requests.</p>
+            </header>
+            <div class="tracker-container" id="liveTrackerBoxWrapper"></div>
+        </div>
+
+        <!-- ORDER HISTORY VIEW -->
+        <div class="view-section" id="view-history">
+            <header class="hero-section">
+                <h1>Order History</h1>
+                <p>Review comprehensive item lists, billing statements, and past transactions.</p>
+            </header>
+            <div class="history-table-card">
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Date & Parameters</th>
+                            <th>Items Summary</th>
+                            <th>Total Amount</th>
+                            <th>Payment</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historicalArchiveTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- PROFILE VIEW -->
+        <div class="view-section" id="view-profile">
+            <header class="hero-section">
+                <h1>My Profile</h1>
+                <p>Manage your account parameters, data constraints, and verification credentials.</p>
+            </header>
+            <div class="profile-layout">
+                <div class="profile-card">
+                    <form onsubmit="handleProfileUpdate(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">First Name</label>
+                                <input type="text" id="profFirst" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Last Name</label>
+                                <input type="text" id="profLast" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Phone Number</label>
+                            <input type="text" id="profPhone" class="form-control" required>
+                        </div>
+                        <button type="submit" id="saveProfileBtn" class="btn-save-profile">Save System Profile</button>
+                    </form>
+                    <div class="account-meta-footer">
+                        <span>Customer Reference ID: <strong style="color: var(--amber);" id="lblCustID">CUS001</strong></span>
+                        <span>Engine Layer: Oracle APEX</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- CHECKOUT MODAL -->
+    <div class="modal-overlay" id="checkoutPopupOverlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2 class="modal-title">Checkout Summary</h2>
+                <button type="button" class="modal-close-btn" onclick="closeCheckoutPopup()">&times;</button>
+            </div>
+            <div class="checkout-summary-scroll" id="popupSummaryItemsList"></div>
+            <form onsubmit="handlePaymentCheckoutForm(event)">
+                <div class="form-group">
+                    <label class="form-label">Dining Parameter</label>
+                    <select id="chkDiningType" class="form-control">
+                        <option value="">Syncing dining parameters...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Payment Gateway Method</label>
+                    <select id="chkPaymentType" class="form-control">
+                        <option value="">Syncing payment gateways...</option>
+                    </select>
+                </div>
+                <button type="submit" id="finalPayBtn" class="btn-submit-order">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                    Confirm & Proceed to Payment
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- RECEIPT SUCCESS MODAL -->
+    <div class="modal-overlay" id="receiptPopupOverlay">
+        <div class="modal-box" style="max-width: 440px; text-align: center;">
+            <div style="margin-bottom: 16px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <h2 class="modal-title" style="justify-content: center; margin-bottom: 4px;">Payment Approved!</h2>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 24px;">Order <span id="receiptOrderNum" style="color: var(--amber); font-weight: 700;">ORD021</span> has been queued successfully.</p>
+
+            <div class="checkout-summary-scroll" id="receiptItemsBreakdownBox" style="text-align: left; max-height: 160px; margin-bottom: 28px;"></div>
+
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <button type="button" class="btn-submit-order" onclick="navigateFromReceipt('tracker')">
+                    Track Live Order Status &rarr;
+                </button>
+                <button type="button" class="btn-submit-order" style="background: var(--bg-pill); color: var(--text-primary);" onclick="navigateFromReceipt('home')">
+                    Go to Home
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Modules -->
+    <script src="../../scripts/customer/modules/core.js"></script>
+    <script src="../../scripts/customer/modules/home.js"></script>
+    <script src="../../scripts/customer/modules/menu.js"></script>
+    <script src="../../scripts/customer/modules/tracker.js"></script>
+    <script src="../../scripts/customer/modules/history.js"></script>
+    <script src="../../scripts/customer/modules/profile.js"></script>
+    <script src="../../scripts/customer/app_customer.js"></script>
+</body>
+</html>

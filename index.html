@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cabin Putih — Premium Cozy Dining & F&B Sensation</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+    <style>
+        /* ============================================================
+           CABIN PUTIH BRAND LANDING LAYOUT DEFINITION
+           Premium Palette: Midnight Navy (#0B0F19) + Warm Amber (#F59E0B)
+           ============================================================ */
+        *, *::before, *::after { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+        }
+
+        :root {
+            --bg-main: #0b0f19;
+            --bg-surface: #131a2a;
+            --bg-card: #1c263c;
+            --border: #24324f;
+            
+            --amber: #f59e0b;
+            --amber-hover: #fbbf24;
+            --amber-faint: rgba(245, 158, 11, 0.1);
+            
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            
+            --success: #22c55e;
+            --success-faint: rgba(34, 197, 94, 0.1);
+            --danger: #ef4444;
+            --font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+            --transition: cubic-bezier(0.4, 0, 0.2, 1) 0.3s;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.6;
+        }
+
+        /* ---- TOP NAVIGATION BAR ---- */
+        .top-nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background-color: rgba(11, 15, 25, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: -0.01em;
+        }
+
+        .brand-icon {
+            background: var(--amber);
+            color: #0b0f19;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .nav-link:hover {
+            color: var(--amber);
+        }
+
+        .btn-nav-cta {
+            background-color: var(--amber);
+            color: #0b0f19;
+            padding: 10px 24px;
+            border-radius: 99px;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.25);
+        }
+
+        .btn-nav-cta:hover {
+            background-color: var(--amber-hover);
+            transform: translateY(-1px);
+        }
+
+        /* ---- HERO IMMERSIVE CAROUSEL ---- */
+        .hero-carousel-wrapper {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-track {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+        }
+
+        .carousel-overlay-mask {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            background: linear-gradient(to bottom, rgba(11, 15, 25, 0.7) 0%, rgba(11, 15, 25, 0.85) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 860px;
+            padding: 0 20px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .hero-content h1 {
+            font-size: 3.75rem;
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            margin-bottom: 24px;
+            color: #ffffff;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+
+        .hero-content p {
+            color: #cbd5e1;
+            font-size: 1.3rem;
+            margin-bottom: 44px;
+            max-width: 660px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .carousel-indicators {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            display: flex;
+            gap: 12px;
+        }
+
+        .indicator-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.25);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .indicator-dot.active {
+            background-color: var(--amber);
+            transform: scale(1.2);
+            width: 24px;
+            border-radius: 99px;
+        }
+
+        /* ---- SECTIONS ARCHITECTURE ---- */
+        .section {
+            padding: 100px 40px 40px;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+        }
+
+        /* ---- OUR STORY PANEL ---- */
+        .about-split-panel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 32px;
+            padding: 60px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .about-img-box {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+            aspect-ratio: 4/3;
+        }
+
+        .about-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .about-text-content h3 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            letter-spacing: -0.01em;
+            color: var(--text-primary);
+        }
+
+        .about-text-content p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .about-accent-quote {
+            border-left: 3px solid var(--amber);
+            padding-left: 16px;
+            font-style: italic;
+            color: var(--text-primary);
+            margin: 24px 0;
+            font-weight: 500;
+        }
+
+        .btn-story-secondary {
+            background-color: transparent;
+            border: 1px solid var(--amber);
+            color: var(--amber);
+            padding: 12px 28px;
+            border-radius: 99px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .btn-story-secondary:hover {
+            background-color: var(--amber-faint);
+            color: var(--amber-hover);
+        }
+
+        /* ============================================================
+           NEW FEATURE: IMMERSIVE DETAILS & ORG CHART DRAWDOWN
+           ============================================================ */
+        .story-drawdown-details {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+            margin-top: 0;
+        }
+
+        .story-drawdown-details.expanded {
+            max-height: 2000px; /* Safe bounds container limits */
+            opacity: 1;
+            margin-top: 40px;
+        }
+
+        .corporate-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-bottom: 60px;
+        }
+
+        .corp-card {
+            background-color: #121929;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 32px;
+        }
+
+        .corp-card h4 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--amber);
+        }
+
+        .corp-card p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ---- MODERN ORGANIZATIONAL CHART COMPONENT ---- */
+        .org-chart-box {
+            background: linear-gradient(180deg, #131a2a 0%, #0b0f19 100%);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: 48px;
+            text-align: center;
+            box-shadow: inset 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .org-chart-box h4 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 40px;
+        }
+
+        .org-tree {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 32px;
+            position: relative;
+        }
+
+        .org-node {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 14px 24px;
+            border-radius: 14px;
+            min-width: 180px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .org-node:hover {
+            border-color: var(--amber);
+            transform: scale(1.03);
+        }
+
+        .org-node.manager-node {
+            border-left: 4px solid var(--amber);
+        }
+
+        .org-node .node-name {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .org-node .node-role {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--amber);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-top: 2px;
+        }
+
+        .org-row-tier {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            width: 100%;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        /* Connecting Branch Line Accents */
+        .org-line-vertical {
+            width: 2px;
+            height: 32px;
+            background-color: var(--border);
+        }
+
+        /* ---- FEATURE GRID ---- */
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; }
+        .feature-card { background-color: var(--bg-surface); border: 1px solid var(--border); padding: 40px; border-radius: 24px; transition: var(--transition); }
+        .feature-card:hover { border-color: rgba(245, 158, 11, 0.25); transform: translateY(-4px); }
+        .feature-icon { font-size: 2.5rem; margin-bottom: 20px; display: inline-block; }
+        .feature-card h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 12px; }
+        .feature-card p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; }
+
+        /* ---- PUBLIC MENU PREVIEW GRID ---- */
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 32px; }
+        .food-card { background-color: var(--bg-surface); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); }
+        .food-img-wrapper { position: relative; width: 100%; padding-top: 66%; background-color: var(--bg-card); }
+        .food-img-wrapper img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+        .food-info { padding: 24px; }
+        .food-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 8px; }
+        .food-desc { color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 16px; line-height: 1.5; }
+        .food-price { font-size: 1.2rem; font-weight: 800; color: var(--amber); }
+
+        /* ---- INFRASTRUCTURE INFO MATRIX ---- */
+        .info-panel { background-color: var(--bg-surface); border: 1px solid var(--border); border-radius: 32px; padding: 60px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+        .info-left h3 { font-size: 2rem; font-weight: 800; margin-bottom: 16px; letter-spacing: -0.01em; }
+        .info-left p { color: var(--text-secondary); margin-bottom: 32px; }
+        .info-meta-row { display: flex; gap: 40px; }
+        .meta-stat h4 { font-size: 2rem; font-weight: 800; color: var(--amber); }
+        .meta-stat span { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; letter-spacing: 0.05em; }
+        .hours-list { list-style: none; }
+        .hours-item { display: flex; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid var(--border); font-size: 1rem; }
+        .hours-item:last-child { border-bottom: none; }
+        .hours-item span:first-child { font-weight: 600; color: var(--text-secondary); }
+
+        .footer { border-top: 1px solid var(--border); padding: 40px; text-align: center; font-size: 0.88rem; color: var(--text-muted); }
+
+        @media (max-width: 992px) {
+            .about-split-panel, .info-panel, .corporate-grid { grid-template-columns: 1fr; gap: 40px; padding: 40px; }
+            .hero-content h1 { font-size: 2.75rem; }
+        }
+
+        @media (max-width: 768px) {
+            .top-nav { padding: 0 20px; }
+            .top-nav .nav-links .nav-link { display: none; }
+            .hero-content h1 { font-size: 2.25rem; }
+            .hero-buttons { flex-direction: column; gap: 14px; }
+            .section { padding: 60px 20px; }
+            .org-row-tier { flex-direction: column; align-items: center; gap: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP NAVIGATION BAR -->
+    <nav class="top-nav">
+        <a href="#" class="brand">
+            <div class="brand-icon">CP</div>
+            <span>Cabin Putih</span>
+        </a>
+        <div class="nav-links">
+            <a href="#about-us" class="nav-link">Our Story</a>
+            <a href="#features" class="nav-link">Our Standards</a>
+            <a href="#signature-dishes" class="nav-link">Signatures</a>
+            <a href="#visit-us" class="nav-link">Hours & Location</a>
+            <a href="login.html" class="btn-nav-cta">Sign In / Register</a>
+        </div>
+    </nav>
+
+    <!-- HERO CAROUSEL HEADER -->
+    <header class="hero-carousel-wrapper">
+        <div class="carousel-track">
+            <div class="carousel-slide active" style="background-image: url('https://images.pexels.com/photos/2983101/pexels-photo-2983101.jpeg?auto=compress&cs=tinysrgb&w=1600&h=900&dpr=1');"></div>
+            <div class="carousel-slide" style="background-image: url('https://images.pexels.com/photos/1581384/pexels-photo-1581384.jpeg?auto=compress&cs=tinysrgb&w=1600&h=900&dpr=1');"></div>
+            <div class="carousel-slide" style="background-image: url('https://images.pexels.com/photos/1435896/pexels-photo-1435896.jpeg?auto=compress&cs=tinysrgb&w=1600&h=900&dpr=1');"></div>
+        </div>
+        <div class="carousel-overlay-mask"></div>
+        <div class="hero-content">
+            <h1>Cozy Spaces. Exquisite Flavors. Delivered Instantly.</h1>
+            <p>Welcome to Cabin Putih. Experience premium local favorites and artisanal western specialties prepared by master chefs and queued right to your digital footprint.</p>
+            <div class="hero-buttons">
+                <a href="login.html" class="btn-hero-primary">Order Online Now</a>
+                <a href="#signature-dishes" class="btn-hero-secondary">View Signature Menu</a>
+            </div>
+        </div>
+        <div class="carousel-indicators">
+            <div class="indicator-dot active" onclick="jumpToSlide(0)"></div>
+            <div class="indicator-dot" onclick="jumpToSlide(1)"></div>
+            <div class="indicator-dot" onclick="jumpToSlide(2)"></div>
+        </div>
+    </header>
+
+    <!-- ABOUT US (OUR STORY) SECTION -->
+    <section class="section" id="about-us">
+        <div class="section-header">
+            <h2>Our Story</h2>
+            <p>Crafting comfort food inside an architectural space of peace and connection.</p>
+        </div>
+        
+        <div class="about-split-panel">
+            <div class="about-img-box">
+                <img src="https://images.pexels.com/photos/903376/pexels-photo-903376.jpeg?auto=compress&cs=tinysrgb&w=600&h=450&dpr=1" alt="Cabin Putih Architectural Decor Context">
+            </div>
+            <div class="about-text-content">
+                <h3>From a Humble Cabin to a Modern Sensation</h3>
+                <p>Founded with a deep passion for clean, cozy hospitality, Cabin Putih emerged as a sanctuary for food lovers. We set out to blend the rustic warmth of traditional culinary arts with modern, seamless digital dining workflows.</p>
+                <div class="about-accent-quote">
+                    "We believe that premium dining isn't just about premium pricing; it's about the precision of fresh ingredients, high-tactile flavor arrays, and zero friction."
+                </div>
+                <p>Whether you're stopping by to enjoy the serene slate-toned architecture of our physical tables, or ordering a hot wok-tossed noodle right to your door, our goal remains exactly the same.</p>
+                
+                <!-- ADJUSTMENT: Interactive toggle link for company specifications & corporate chart maps -->
+                <button type="button" class="btn-story-secondary" id="drawdownToggleBtn" onclick="toggleCorporateDrawdown()">
+                    Explore Company Details & Org Chart &rarr;
+                </button>
+            </div>
+        </div>
+
+        <!-- HIDDEN DRAWER SPEC DETAILS SLOT -->
+        <div class="story-drawdown-details" id="companyDetailsDrawdown">
+            <div class="corporate-grid">
+                <div class="corp-card">
+                    <h4>Our Core Mission</h4>
+                    <p>To redefine localized dark-theme fast-casual dining across Malaysia by serving uncompromisingly fresh recipes through friction-free web pipelines powered by Oracle APEX layer mechanics[cite: 2].</p>
+                </div>
+                <div class="corp-card">
+                    <h4>Corporate Vision</h4>
+                    <p>Expanding from our physical base in Kedah to a multi-terminal nationwide digital franchise model, matching modern e-commerce transparency while honoring traditional cabin-cooked heritage.</p>
+                </div>
+            </div>
+
+            <!-- ORGANIZATIONAL ARCHITECTURE MAP LAYER -->
+            <div class="org-chart-box">
+                <h4>Organizational Structure Hierarchy</h4>
+                <div class="org-tree">
+                    
+                    <!-- Tier 1: Exec Management -->
+                    <div class="org-node manager-node">
+                        <div class="node-name">Siti Norbaizura</div>
+                        <div class="node-role">General Manager (EMP001)</div>
+                    </div>
+                    
+                    <div class="org-line-vertical"></div>
+                    
+                    <!-- Tier 2: Kitchen & Operation Leads -->
+                    <div class="org-row-tier">
+                        <div class="org-node">
+                            <div class="node-name">Khairul Anwar</div>
+                            <div class="node-role">Head Executive Chef</div>
+                        </div>
+                        <div class="org-node">
+                            <div class="node-name">Farah Nabilah</div>
+                            <div class="node-role">Head Counter Cashier</div>
+                        </div>
+                    </div>
+                    
+                    <div class="org-line-vertical"></div>
+                    
+                    <!-- Tier 3: Floor & Dispatch Staff -->
+                    <div class="org-row-tier">
+                        <div class="org-node" style="min-width: 140px;">
+                            <div class="node-name">Thrishaa</div>
+                            <div class="node-role">Floor Waiter</div>
+                        </div>
+                        <div class="org-node" style="min-width: 140px;">
+                            <div class="node-name">Mohamad Shahrizal</div>
+                            <div class="node-role">Logistics Runner</div>
+                        </div>
+                        <div class="org-node" style="min-width: 140px;">
+                            <div class="node-name">Desmond Lim</div>
+                            <div class="node-role">Register Clerk</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: CORE VALUES -->
+    <section class="section" id="features">
+        <div class="section-header">
+            <h2>The Cabin Putih Standard</h2>
+            <p>Why local diners choose our cabin kitchen day after day.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🍳</div>
+                <h3>Sourced Fresh Daily</h3>
+                <p>We work hand-in-hand with premium regional raw wholesale partners to bring organic local produce and fresh catch meats straight to our kitchen counters daily.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Sleek Digital Flow</h3>
+                <p>No waiting lines, no misplaced tabs. Build your customized orders through our app portal, complete contactless payment, and follow live kitchen tracker metrics.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🍔</div>
+                <h3>Signature Flavor Base</h3>
+                <p>From our artisan home-baked Zinger buns to our meticulously reduced specialty maggi base, every dish features proprietary recipes you can't find anywhere else.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: SIGNATURE PREVIEW -->
+    <section class="section" id="signature-dishes">
+        <div class="section-header">
+            <h2>Chef's Curated Masterpieces</h2>
+            <p>A quick teaser snippet of the iconic dishes awaiting your digital order bucket.</p>
+        </div>
+        <div class="menu-grid">
+            <div class="food-card">
+                <div class="food-img-wrapper"><img src="https://images.pexels.com/photos/1251198/pexels-photo-1251198.jpeg?auto=compress&cs=tinysrgb&w=400&h=260" alt="Chicken Zinger Burger"></div>
+                <div class="food-info">
+                    <div class="food-title">Chicken Zinger Burger</div>
+                    <p class="food-desc">Crispy golden chicken thigh, artisan brioche buns, layered crisp lettuce, and signature cabin cream spread.</p>
+                    <div class="food-price">RM 5.50</div>
+                </div>
+            </div>
+            <div class="food-card">
+                <div class="food-img-wrapper"><img src="https://images.pexels.com/photos/1907228/pexels-photo-1907228.jpeg?auto=compress&cs=tinysrgb&w=400&h=260" alt="Fry Maggi Chicken Original"></div>
+                <div class="food-info">
+                    <div class="food-title">Fry Maggi Chicken Original</div>
+                    <p class="food-desc">Wok-tossed stir noodles enhanced with slow-reduced chicken broth essence, custom spice matrix, and shredded fried pieces.</p>
+                    <div class="food-price">RM 5.50</div>
+                </div>
+            </div>
+            <div class="food-card">
+                <div class="food-img-wrapper"><img src="https://images.pexels.com/photos/2474669/pexels-photo-2474669.jpeg?auto=compress&cs=tinysrgb&w=400&h=260" alt="Cold White Cabin Kaffe"></div>
+                <div class="food-info">
+                    <div class="food-title">Cold White Cabin Kaffe</div>
+                    <p class="food-desc">Premium roasted espresso blend layered over ice-cold sweet structured cream base. The ultimate rich wake-up trigger.</p>
+                    <div class="food-price">RM 5.50</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: HOURS AND CONTACT DETAILS -->
+    <section class="section" id="visit-us">
+        <div class="info-panel">
+            <div class="info-left">
+                <h3>Come Dine In With Us</h3>
+                <p>Located in a serene slate atmosphere built for comfort, delicious food, and great conversations. Stop by or request immediate counter collection online.</p>
+                <div style="margin-bottom: 24px;">
+                    <span style="display:block; font-size:0.85rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:4px;">Main Base Address</span>
+                    <address style="font-style:normal; color:var(--text-primary); font-size:1.1rem; font-weight:600;">Lot 104, Jalan Putih, Mukim Bedong, 08100 Kedah, Malaysia</address>
+                </div>
+                <div class="info-meta-row">
+                    <div class="meta-stat"><h4>A+</h4><span>Hygiene Rank</span></div>
+                    <div class="meta-stat"><h4>100%</h4><span>Halal Sourced</span></div>
+                </div>
+            </div>
+            <div class="info-right">
+                <ul class="hours-list">
+                    <li class="hours-item"><span>Monday – Thursday</span><span>11:00 AM – 10:00 PM</span></li>
+                    <li class="hours-item"><span>Friday</span><span>4:00 PM – 11:30 PM</span></li>
+                    <li class="hours-item"><span>Saturday – Sunday</span><span>10:30 AM – 11:30 PM</span></li>
+                    <li class="hours-item"><span>Public Holidays</span><span>Closed / Maintenance</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2026 Cabin Putih F&amp;B Sdn Bhd. All rights reserved. Powered by Oracle APEX &amp; ORDS Layer Engines.</p>
+    </footer>
+
+    <!-- JAVASCRIPT ANIMATION AND CAROUSEL CONTROLLERS -->
+    <script>
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        const indicators = document.querySelectorAll('.indicator-dot');
+        const slideRotationIntervalTime = 5000;
+        let autoRotationTimer;
+
+        function updateCarouselDisplay() {
+            slides.forEach(slide => slide.classList.remove('active'));
+            indicators.forEach(dot =>  dot.classList.remove('active'));
+            slides[currentSlideIndex].classList.add('active');
+            indicators[currentSlideIndex].classList.add('active');
+        }
+
+        function advanceToNextSlide() {
+            currentSlideIndex = (currentSlideIndex + 1) % slides.length;
+            updateCarouselDisplay();
+        }
+
+        function jumpToSlide(index) {
+            currentSlideIndex = index;
+            updateCarouselDisplay();
+            clearInterval(autoRotationTimer);
+            autoRotationTimer = setInterval(advanceToNextSlide, slideRotationIntervalTime);
+        }
+
+        /* ---- NEW INTERACTIVE DRAWER FUNCTION ---- */
+        function toggleCorporateDrawdown() {
+            const detailDrawer = document.getElementById('companyDetailsDrawdown');
+            const actionButton = document.getElementById('drawdownToggleBtn');
+            
+            const isCurrentlyExpanded = detailDrawer.classList.toggle('expanded');
+            
+            if (isCurrentlyExpanded) {
+                actionButton.innerHTML = "Hide Company Details &larr;";
+                // Graceful contextual slide shift focus mapping
+                setTimeout(() => {
+                    detailDrawer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 150);
+            } else {
+                actionButton.innerHTML = "Explore Company Details & Org Chart &rarr;";
+            }
+        }
+
+        autoRotationTimer = setInterval(advanceToNextSlide, slideRotationIntervalTime);
+    </script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+/* ============================================================
+   CABIN PUTIH STAFF OPERATIONAL THEME
+   Main stylesheet - imports all modular CSS components
+   Palette: Midnight Navy (#0B0F19) + Warm Amber (#F59E0B)
+   ============================================================ */
+
+/* Core: Variables, reset, sidebar, base layout */
+@import url('./modules/core.css');
+
+/* Register: POS catalog, filters, cart panel */
+@import url('./modules/register.css');
+
+/* Shared: Tables, buttons, status pills, tracker cards */
+@import url('./modules/shared.css');
+
+/* Modals: Checkout, receipt, preview, CRUD popups */
+@import url('./modules/modals.css');
+
+/* Toast: Notification toast system */
+@import url('./modules/toast.css');

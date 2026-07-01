@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cabin Putih — Staff Terminal</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="../../styles/staff/style_staff.css">
+</head>
+<body>
+
+    <div class="toast-container" id="toastNotificationContainer"></div>
+
+    <div class="app-shell">
+
+        <nav class="sidebar" id="appSidebar">
+            <div class="sidebar-brand">
+                <div class="brand-icon">CP</div>
+                <div class="brand-text">
+                    <strong>Cabin Putih</strong>
+                    <span>Staff Terminal</span>
+                </div>
+            </div>
+
+            <div class="sidebar-nav">
+                <div class="nav-section-label">Operations</div>
+                <button class="nav-item active" id="btn-nav-register" onclick="switchView('register')">
+                    POS Register
+                </button>
+                <button class="nav-item" id="btn-nav-directory" onclick="switchView('directory')">
+                    Menu Directory
+                </button>
+                <button class="nav-item" id="btn-nav-hub" onclick="switchView('hub')">
+                    Active Orders
+                </button>
+                <button class="nav-item" id="btn-nav-stock" onclick="switchView('stock')">
+                    Stock Room
+                </button>
+                <button class="nav-item" id="btn-nav-past" onclick="switchView('past')">
+                    Past Orders
+                </button>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="user-avatar" id="staffAvatarInitials">ST</div>
+                    <div class="user-info">
+                        <div class="name" id="lblStaffDisplayName">LOADING...</div>
+                        <div class="role">Floor Permissions</div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="main-content" id="mainContent">
+
+            <header class="top-header">
+                <div class="header-title">
+                    <span class="breadcrumb">Cabin Putih /</span> Staff Station Workspace
+                </div>
+                <div class="header-actions">
+                    <span class="header-badge" id="lblHeaderBadge">Operational Node</span>
+                    <a href="../login.html" class="btn-logout">Logout</a>
+                </div>
+            </header>
+
+            <main class="container">
+
+                <!-- POS REGISTER VIEW -->
+                <div class="view-section active" id="view-register">
+                    <header class="hero-section">
+                        <h1>POS Register Sales Desk</h1>
+                        <p>Select a lane terminal below to process on-premise checkout tickets.</p>
+                    </header>
+
+                    <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 24px; background: var(--bg-surface); padding: 14px; border-radius: 12px; border: 1px solid var(--border);">
+                        <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase;">Active Terminal Lock:</label>
+                        <select id="posTerminalSelectionDropdown" class="form-control" style="width: auto; padding: 6px 12px;" onchange="saveTerminalLockSelection()">
+                            <option value="POS-01">POS Terminal 01</option>
+                            <option value="POS-02">POS Terminal 02</option>
+                            <option value="POS-03">POS Terminal 03</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-container" id="posCategoryFilterWrapper"></div>
+
+                    <div class="pos-layout">
+                        <div class="menu-grid" id="posCatalogItemsGrid">
+                            <div class="loading">Sourcing available kitchen rows...</div>
+                        </div>
+
+                        <div class="cart-panel">
+                            <div class="cart-title">POS Basket</div>
+                            <div id="posCartRowsWrapper"></div>
+                            <div class="cart-divider"></div>
+                            <div class="cart-total-row" style="margin-bottom: 16px;">
+                                <span class="cart-total-label">Total Due</span>
+                                <span class="cart-total-value" id="lblPosTotalSum">RM 0.00</span>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 8px;">
+                                <button type="button" class="btn-cart-action primary" onclick="openPosCheckoutSummaryModal()">Process On-Premise Cash &rarr;</button>
+                                <button type="button" class="btn-cart-action secondary" onclick="clearPosCartBasket()">Void Basket</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MENU DIRECTORY VIEW -->
+                <div class="view-section" id="view-directory">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+                        <div>
+                            <h1 style="font-size: 2.25rem; font-weight: 700;">Menu Directory</h1>
+                            <p style="color: var(--text-secondary);">Click on an item's label below to update recipe parameters or delete rows.</p>
+                        </div>
+                        <button type="button" class="btn-promo-action" style="padding: 12px 24px; font-size: 0.9rem;" onclick="openMenuCrudFormModal('add')">
+                            + Create Recipe Item
+                        </button>
+                    </div>
+
+                    <div class="history-table-card">
+                        <table class="history-table">
+                            <thead>
+                                <tr>
+                                    <th>Item ID</th>
+                                    <th>Recipe Label Name</th>
+                                    <th>Category Group</th>
+                                    <th>Unit Price</th>
+                                    <th>Kitchen Stock</th>
+                                    <th>Status Flag</th>
+                                </tr>
+                            </thead>
+                            <tbody id="menuDirectoryTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ACTIVE ORDERS HUB VIEW -->
+                <div class="view-section" id="view-hub">
+                    <header class="hero-section">
+                        <h1>Active Kitchen Channels</h1>
+                        <p>Advance real-time production matrix paths from Customer submissions.</p>
+                    </header>
+
+                    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 16px; margin-bottom: 32px; background: var(--bg-surface); padding: 16px; border-radius: 16px; border: 1px solid var(--border);">
+                        <input type="text" id="txtSearchActiveOrders" class="form-control" placeholder="Search active orders by ID or Name..." oninput="filterAndRenderActiveOrdersHub()">
+                        <select id="ddlSortActiveOrders" class="form-control" onchange="filterAndRenderActiveOrdersHub()">
+                            <option value="order_id">Order ID</option>
+                            <option value="order_date">Transaction Date</option>
+                        </select>
+                        <select id="ddlDirectionActiveOrders" class="form-control" onchange="filterAndRenderActiveOrdersHub()">
+                            <option value="ASC">Ascending Order</option>
+                            <option value="DESC">Descending Order</option>
+                        </select>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px;" id="kitchenOrdersContainerGrid"></div>
+                </div>
+
+                <!-- STOCK ROOM VIEW -->
+                <div class="view-section" id="view-stock">
+                    <header class="hero-section">
+                        <h1>Inventory Stock Room</h1>
+                        <p>Monitor current item volume thresholds and request inventory dispatch fills.</p>
+                    </header>
+
+                    <div class="history-table-card">
+                        <table class="history-table">
+                            <thead>
+                                <tr>
+                                    <th>Item ID</th>
+                                    <th>Recipe Label</th>
+                                    <th>Current Quantity</th>
+                                    <th>Status Threshold</th>
+                                    <th style="text-align: right;">Action Link</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventoryStockTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- PAST ORDERS VIEW -->
+                <div class="view-section" id="view-past">
+                    <header class="hero-section">
+                        <h1>Historical Transactions Archive</h1>
+                        <p>Review complete historical transactions saved to disk data clusters.</p>
+                    </header>
+
+                    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 12px; margin-bottom: 32px; background: var(--bg-surface); padding: 16px; border-radius: 16px; border: 1px solid var(--border);">
+                        <input type="text" id="txtSearchPastOrders" class="form-control" placeholder="Search past logs by ID or Name..." oninput="filterAndRenderPastOrdersArchive()">
+                        <input type="date" id="dateSearchPastOrders" class="form-control" onchange="filterAndRenderPastOrdersArchive()">
+                        <select id="ddlSortPastOrders" class="form-control" onchange="filterAndRenderPastOrdersArchive()">
+                            <option value="order_id">Order ID</option>
+                            <option value="order_date">Calendar Entry Date</option>
+                        </select>
+                        <select id="ddlDirectionPastOrders" class="form-control" onchange="filterAndRenderPastOrdersArchive()">
+                            <option value="DESC">Descending</option>
+                            <option value="ASC">Ascending</option>
+                        </select>
+                    </div>
+
+                    <div class="history-table-card">
+                        <table class="history-table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Timestamp</th>
+                                    <th>Customer Account Link</th>
+                                    <th>Line Allocation Summary</th>
+                                    <th>Grand Total Billing</th>
+                                    <th>Payment Type</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historicalPastOrdersTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+
+            <footer class="site-footer" style="background: var(--bg-surface); border-top: 1px solid var(--border); padding: 18px 40px; font-size: 0.8rem; color: var(--text-muted); text-align: left;">
+                <span>&copy; 2026 Cabin Putih F&amp;B Sdn Bhd. All rights reserved.</span>
+            </footer>
+        </div>
+    </div>
+
+    <!-- POS CHECKOUT MODAL -->
+    <div class="modal-overlay" id="posCheckoutInputModalOverlay">
+        <div class="modal-box" style="max-width: 480px;">
+            <div class="modal-header">
+                <h2 class="modal-title">Finalize POS Register Order</h2>
+                <button type="button" class="modal-close-btn" onclick="closePosCheckoutInputModal()">&times;</button>
+            </div>
+            <form onsubmit="handleStaffPosCheckoutFormSubmit(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Customer First Name</label>
+                        <input type="text" id="txtStaffPosFirst" class="form-control" placeholder="e.g. AMIR" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Customer Last Name</label>
+                        <input type="text" id="txtStaffPosLast" class="form-control" placeholder="e.g. HAKIMI" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Dining Parameter Option</label>
+                    <select id="chkStaffPosDiningType" class="form-control"></select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Payment Gateway Method</label>
+                    <select id="chkStaffPosPaymentType" class="form-control"></select>
+                </div>
+                <button type="submit" id="btnStaffPosFinalPay" class="btn-submit-order" style="margin-top: 12px;">
+                    Generate Receipt Ticket &rarr;
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- POS RECEIPT SUCCESS MODAL -->
+    <div class="modal-overlay" id="posReceiptSuccessModalOverlay">
+        <div class="modal-box" style="max-width: 440px; text-align: center;">
+            <div style="margin-bottom: 16px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <h2 class="modal-title" style="justify-content: center; margin-bottom: 4px;">Ticket Saved!</h2>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 24px;">Order Reference <span id="lblStaffSuccessOrderId" style="color: var(--amber); font-weight: 700;">ORD000</span> saved cleanly on disk.</p>
+
+            <div style="background: var(--bg-main); border: 1px dashed var(--border); padding: 20px; text-align: left; border-radius: 12px; margin-bottom: 24px;" id="boxPrintReceiptAreaTarget"></div>
+
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <button type="button" class="btn-submit-order" onclick="triggerSystemReceiptPrint()">
+                    Print Transaction Receipt &#128424;
+                </button>
+                <button type="button" class="btn-submit-order" style="background: var(--bg-pill); color: var(--text-primary);" onclick="closePosReceiptSuccessModal()">
+                    Close Terminal View
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MENU ITEM PREVIEW MODAL -->
+    <div class="modal-overlay" id="menuItemPreviewModalOverlay">
+        <div class="modal-box" style="max-width: 440px;">
+            <div class="modal-header">
+                <h2 class="modal-title">Recipe Management Portal</h2>
+                <button type="button" class="modal-close-btn" onclick="closeItemPreviewActionPortal()">&times;</button>
+            </div>
+            <div class="preview-portal-body" style="margin-bottom: 24px;">
+                <div style="font-size: 0.78rem; font-weight: 700; color: var(--amber); margin-bottom: 4px; font-family: monospace;" id="lblPreviewRefId">ITM000</div>
+                <h3 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 12px;" id="lblPreviewItemName">Premium Burger</h3>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+                    <div>
+                        <div style="font-size: 0.72rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; margin-bottom: 2px;">Unit Price</div>
+                        <div style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary);" id="lblPreviewItemPrice">RM 0.00</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.72rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; margin-bottom: 2px;">Current Stock</div>
+                        <div style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary);" id="lblPreviewItemQty">0 Units</div>
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <div>
+                        <div style="font-size: 0.72rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; margin-bottom: 2px;">Category</div>
+                        <div style="font-size: 0.9rem; font-weight: 600; color: var(--text-secondary);" id="lblPreviewItemType">BURGER</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.72rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; margin-bottom: 4px;">Status Flag</div>
+                        <div id="lblPreviewItemStatusFlag" class="status-pill-static success">AVAILABLE</div>
+                    </div>
+                </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 12px;">
+                <button type="button" class="btn-submit-order" id="btnPortalTriggerEdit">
+                    Edit Parameters Row
+                </button>
+                <button type="button" class="btn-submit-order" id="btnPortalTriggerDelete" style="background: var(--danger-faint); border: 1px solid var(--danger); color: var(--danger);">
+                    Drop Item
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MENU CRUD FORM MODAL -->
+    <div class="modal-overlay" id="menuCrudFormModalOverlay">
+        <div class="modal-box" style="max-width: 460px;">
+            <div class="modal-header">
+                <h2 class="modal-title" id="lblCrudModalHeadingTitle">Recipe Parameters Form</h2>
+                <button type="button" class="modal-close-btn" onclick="closeMenuCrudFormModal()">&times;</button>
+            </div>
+            <form id="frmMenuItemCrudAsset" onsubmit="handleMenuItemCrudSubmission(event)">
+                <input type="hidden" id="txtCrudItemTargetId">
+                <div class="form-group">
+                    <label class="form-label">Menu Item Name</label>
+                    <input type="text" id="txtCrudItemName" class="form-control" required placeholder="e.g. Premium Beef Burger">
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Price (RM)</label><input type="number" step="0.01" id="txtCrudItemPrice" class="form-control" required></div>
+                    <div class="form-group"><label class="form-label">Quantity</label><input type="number" id="txtCrudItemQty" class="form-control" required></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Category Group</label>
+                        <select id="ddlCrudItemType" class="form-control">
+                            <option value="burger">Burger</option>
+                            <option value="noodle">Noodle</option>
+                            <option value="beverage">Beverage</option>
+                            <option value="addon">Add-On</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Status Flag</label>
+                        <select id="ddlCrudItemStatus" class="form-control">
+                            <option value="Available">Available</option>
+                            <option value="Unavailable">Unavailable</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" id="btnSubmitCrudFormAsset" class="btn-submit-order" style="margin-top: 12px;">Save Recipe Row</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript Modules -->
+    <script src="../../scripts/staff/modules/core.js"></script>
+    <script src="../../scripts/staff/modules/pos_register.js"></script>
+    <script src="../../scripts/staff/modules/menu_management.js"></script>
+    <script src="../../scripts/staff/modules/kitchen_orders.js"></script>
+    <script src="../../scripts/staff/modules/inventory_stock.js"></script>
+    <script src="../../scripts/staff/modules/order_history_archive.js"></script>
+    <script src="../../scripts/staff/app_staff.js"></script>
+</body>
+</html>

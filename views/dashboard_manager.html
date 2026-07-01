@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cabin Putih — Executive Administration Terminal</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="../../styles/manager/style_manager.css">
+</head>
+<body>
+
+    <div class="toast-slot-wrapper" id="toastNotificationMasterContainer"></div>
+
+    <div class="app-shell">
+
+        <nav class="sidebar" id="appSidebar">
+            <div class="sidebar-brand">
+                <div class="brand-icon">CP</div>
+                <div class="brand-text">
+                    <strong>Cabin Putih</strong>
+                    <span>Executive Terminal</span>
+                </div>
+            </div>
+
+            <div class="sidebar-nav">
+                <div class="nav-section-label">Management Analytics</div>
+                <button class="nav-item active" id="btn-nav-analytics" onclick="switchView('analytics')">Corporate Analytics</button>
+                <button class="nav-item" id="btn-nav-staff" onclick="switchView('staff')">Personnel Directory</button>
+                <button class="nav-item" id="btn-nav-replenish" onclick="switchView('replenish')">Replenish Requests</button>
+                <button class="nav-item" id="btn-nav-suppliers" onclick="switchView('suppliers')">Supplier Profiles</button>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="user-avatar" id="avatarInitials">MGR</div>
+                    <div class="user-info">
+                        <div class="name" id="lblManagerDisplayName">SITI NORBAIZURA</div>
+                        <div class="role">Corporate Permissions</div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="main-content" id="mainContent">
+
+            <header class="top-header">
+                <div class="header-title">
+                    <span class="breadcrumb">Cabin Putih /</span> Executive Node Terminal
+                </div>
+                <div class="header-actions">
+                    <span class="header-badge">Manager Authorization Mode</span>
+                    <a href="../login.html" class="btn-logout">Logout</a>
+                </div>
+            </header>
+
+            <main class="container">
+
+                <!-- ANALYTICS VIEW -->
+                <div class="view-section active" id="view-analytics">
+                    <header class="hero-section">
+                        <h1>Executive Overview Analytics</h1>
+                        <p>Live aggregations synchronized with customer checkout terminals and active cash lanes.</p>
+                    </header>
+
+                    <div class="metrics-summary-grid">
+                        <div class="metric-stat-card">
+                            <div class="metric-stat-label">Gross Revenue</div>
+                            <div class="metric-stat-value highlight-amber" id="statGrossRevenue">RM 0.00</div>
+                            <div class="metric-stat-footer">Excludes cancelled tickets</div>
+                        </div>
+                        <div class="metric-stat-card">
+                            <div class="metric-stat-label">Total Invoiced Tickets</div>
+                            <div class="metric-stat-value" id="statTotalOrders">0</div>
+                            <div class="metric-stat-footer">Cumulative table row indexes</div>
+                        </div>
+                        <div class="metric-stat-card">
+                            <div class="metric-stat-label">Active Kitchen Queues</div>
+                            <div class="metric-stat-value" id="statActiveOrders">0</div>
+                            <div class="metric-stat-footer">Processing/Fulfillment stage</div>
+                        </div>
+                        <div class="metric-stat-card">
+                            <div class="metric-stat-label">Rostered Personnel</div>
+                            <div class="metric-stat-value" id="statTotalStaff">0</div>
+                            <div class="metric-stat-footer">Active profiles on disk</div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 32px;">
+
+                        <div class="card" style="width: 100%;">
+                            <div class="card-title">Weekly Average Order Value Peak Performance (RM)</div>
+                            <div class="chart-container-vector" style="height: 340px; padding: 24px 40px 40px;">
+                                <svg id="svgWeeklyRevenueChart" width="100%" height="100%" viewBox="0 0 700 240" preserveAspectRatio="none" style="overflow: visible;"></svg>
+                            </div>
+                        </div>
+
+                        <div class="card" style="width: 100%;">
+                            <div class="card-title">Revenue Share Metrics Breakdown by Product Category Group</div>
+                            <div class="pie-chart-container">
+                                <div class="pie-chart-left">
+                                    <svg id="svgDiningTypePieChart" width="200" height="200" viewBox="0 0 100 100" style="transform: rotate(-90deg); display: block; overflow: visible;"></svg>
+                                </div>
+                                <div id="pieChartLegendLabelsContainer" class="pie-chart-legend"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- PERSONNEL DIRECTORY VIEW -->
+                <div class="view-section" id="view-staff">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+                        <div>
+                            <h1 style="font-size: 2.25rem; font-weight: 700;">Personnel Management</h1>
+                            <p style="color: var(--text-secondary);">Manage, add, or analyze operational crew hierarchies.</p>
+                        </div>
+                        <button type="button" class="btn-promo-action" style="padding: 12px 24px; font-size: 0.9rem;" onclick="openAddStaffModal()">
+                            + Add New Employee
+                        </button>
+                    </div>
+
+                    <div class="history-table-card">
+                        <table class="history-table">
+                            <thead>
+                                <tr>
+                                    <th>Employee ID</th>
+                                    <th>Full Name</th>
+                                    <th>Role Position</th>
+                                    <th>Supervising Manager</th>
+                                    <th style="text-align: right;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="staffDirectoryTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- REPLENISH REQUESTS VIEW -->
+                <div class="view-section" id="view-replenish">
+                    <header class="hero-section">
+                        <h1>Stock Replenishment Requests</h1>
+                        <p>Approve stock fill-ups dispatched from kitchen terminals.</p>
+                    </header>
+                    <div class="history-table-card">
+                        <table class="history-table">
+                            <thead>
+                                <tr>
+                                    <th>Item ID</th>
+                                    <th>Product Label</th>
+                                    <th>Category Group</th>
+                                    <th>Current Level</th>
+                                    <th>Threshold Status</th>
+                                    <th style="text-align: right;">Action Link</th>
+                                </tr>
+                            </thead>
+                            <tbody id="replenishRequestsTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- SUPPLIER PROFILES VIEW -->
+                <div class="view-section" id="view-suppliers">
+                    <header class="hero-section">
+                        <h1>Supplier Logistics Profile Directory</h1>
+                        <p>Review contact indices and incoming arrival metrics across supply chains.</p>
+                    </header>
+                    <div class="history-table-card">
+                        <table class="history-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Company Name</th>
+                                    <th>Supply Type Class</th>
+                                    <th>Phone Contact</th>
+                                    <th>Next Delivery Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="supplierProfilesTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- MODAL: REGISTER STAFF -->
+    <div class="modal-overlay" id="addStaffModalOverlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2 class="modal-title">Register New Employee</h2>
+                <button type="button" class="modal-close-btn" onclick="closeAddStaffModal()">&times;</button>
+            </div>
+            <form onsubmit="handleCreateStaffSubmit(event)">
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" id="txtNewStaffName" class="form-control" required placeholder="e.g. Ahmad bin Ali">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Role Position</label>
+                        <select id="ddlNewStaffRole" class="form-control">
+                            <option value="Cashier">Cashier</option>
+                            <option value="Chef">Chef</option>
+                            <option value="Waiter">Waiter</option>
+                            <option value="Runner">Runner</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Supervising Node</label>
+                        <select id="ddlNewStaffManager" class="form-control">
+                            <option value="EMP001">EMP001 — Siti Norbaizura</option>
+                            <option value="EMP011">EMP011 — Muhammad Luqman</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Temporary Access Password</label>
+                    <input type="text" class="form-control" value="password123" readonly style="opacity:0.6;">
+                </div>
+                <button type="submit" class="btn-submit-order" style="margin-top: 12px;">
+                    Commit To Employee Registry
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: CONFIRM EMPLOYEE REMOVAL -->
+    <div class="modal-overlay" id="deleteStaffVerificationModalOverlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2 class="modal-title" style="color: var(--danger);">Remove Employee Profile</h2>
+                <button type="button" class="modal-close-btn" onclick="closeDeleteStaffModal()">&times;</button>
+            </div>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 16px;">
+                Review the structural staff parameters below before dropping this employee row from system indices.
+            </p>
+
+            <div class="preview-data-sheet">
+                <div class="preview-data-row"><span class="preview-data-label">Employee ID:</span><span class="preview-data-value" id="lblDelStaffNum"></span></div>
+                <div class="preview-data-row"><span class="preview-data-label">Full Name:</span><span class="preview-data-value" id="lblDelStaffName"></span></div>
+                <div class="preview-data-row"><span class="preview-data-label">Role Position:</span><span class="preview-data-value" id="lblDelStaffRole"></span></div>
+            </div>
+
+            <form onsubmit="handleExecuteDeleteStaffSubmit(event)">
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label class="form-label" style="color: var(--amber);">Confirm Manager Password</label>
+                    <input type="password" id="txtManagerVerificationPassword" class="form-control" required placeholder="Enter your credential password">
+                </div>
+                <button type="submit" class="btn-submit-order" style="background: var(--danger); color: white;">
+                    Permanently Terminate Row Matrix
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript Modules -->
+    <script src="../../scripts/manager/modules/core.js"></script>
+    <script src="../../scripts/manager/modules/analytics.js"></script>
+    <script src="../../scripts/manager/modules/staff.js"></script>
+    <script src="../../scripts/manager/modules/replenish.js"></script>
+    <script src="../../scripts/manager/modules/suppliers.js"></script>
+    <script src="../../scripts/manager/app_manager.js"></script>
+</body>
+</html>
